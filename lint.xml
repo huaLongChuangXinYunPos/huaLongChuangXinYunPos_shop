@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="DefaultLocale">
+        <ignore path="src/com/example/hlcloundposproject/utils/GetDeviceId.java" />
+        <ignore path="src/com/hl/printer/printer.java" />
+        <ignore path="src/hardware/print/printer.java" />
+    </issue>
+    <issue id="HandlerLeak">
+        <ignore path="src/com/example/hlcloundposproject/MainActivity.java" />
+    </issue>
+    <issue id="ShowToast">
+        <ignore path="src/com/example/hlcloundposproject/MainActivity.java" />
+        <ignore path="src/com/example/hlcloundposproject/fragments/UpdateUserPwdDialog.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/com/example/hlcloundposproject/MainActivity.java" />
+        <ignore path="src/com/example/hlcloundposproject/db/OperationDbTableUtils.java" />
+    </issue>
+</lint>

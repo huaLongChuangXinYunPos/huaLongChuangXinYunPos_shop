@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- 主页面中原价   现价合计  字体  后面数字价格   样式 -->
+    <style name="MainTotalPriceTVStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">left|bottom</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    
+    <!-- 主页面中    现价合计  字体    样式-->
+    <style name="MainTotalPriceTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">@dimen/main_scan_text_size</item>
+    </style>
+
+    <!-- 主页面中    扫码后面  按钮的样式 -->
+    <style name="MainScanBtnStyle">
+        <item name="android:layout_width">@dimen/main_scan_btn_width</item>
+        <item name="android:layout_height">@dimen/main_scan_btn_height</item>
+        <item name="android:textSize">@dimen/main_scan_btn_textSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">@dimen/main_sacn_btn_maigin</item>
+        <item name="android:background">@drawable/scan_btn_selector</item>
+    </style>
+
+    <!-- 主页面中数字按钮    的样式 -->
+    <style name="MainKeysNumsStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/main_keys_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:background">@drawable/keys_nums_btn_selector</item>
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    
+    <!-- 登录界面中    登录和取消按钮样式 -->
+    <style name="LoginBtnStyle">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:background">@drawable/scan_btn_selector</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    
+    <!-- 支付界面   radiobutton样式 -->
+    <style name="FragmentDialogStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:button">@null</item>
+        <item name="android:paddingLeft">18dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@drawable/pay_dialog_fragment_slector</item>
+    </style>
+
+</resources>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:layout_marginTop="10dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	         android:textSize="18sp"
+	        android:text="应付："
+	        />
+	    <TextView 
+	        android:id="@+id/pay_should_banlance"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	         android:textSize="18sp"
+	        android:text="0.00"
+	        />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	         android:textSize="18sp"
+	        android:text="元"
+	        />
+	</LinearLayout>
+	
+    
+    <LinearLayout 
+        android:layout_marginTop="10dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	         android:textSize="18sp"
+	        android:text="实付："
+	        />
+		   <EditText 
+		        android:id="@+id/pay_input_banlance"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="wrap_content"
+		        android:padding="5dp"
+		        android:textSize="18sp"
+		        android:inputType="number"
+		        android:hint="输入支付金额"
+	        />
+	</LinearLayout>
+    
+    
+     <LinearLayout 
+         android:layout_marginTop="10dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	         android:textSize="18sp"
+	        android:text="找零："
+	        />
+		   <TextView 
+		       android:id="@+id/pay_overplus"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:padding="5dp"
+		        android:textSize="18sp"
+		        android:text="0.00"
+	        />
+		   <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	         android:textSize="18sp"
+	        android:text="元"
+	        />
+	</LinearLayout>
+	
+    
+     <LinearLayout 
+         android:layout_marginTop="25dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+         <Button 
+             android:id="@+id/pay_exit_btn"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:padding="10dp"
+             android:layout_weight="1"
+             android:text="取消"
+             />
+         
+         <Button 
+             android:id="@+id/pay_sure_btn"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:padding="10dp"
+             android:layout_weight="1"
+             android:text="确认"
+             />
+	</LinearLayout>
+    
+</LinearLayout>

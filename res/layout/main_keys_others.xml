@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/main_keys_others_vip"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_vip"
+        />
+        <Button
+            android:id="@+id/main_keys_others_calcuate"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_calculate"
+        />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/main_keys_others_re_print"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_re_print"
+        />
+        <Button
+             android:id="@+id/main_keys_others_goods_back"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_goods_back"
+        />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/main_keys_others_amount"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_amount"
+        />
+        <Button
+            android:id="@+id/main_keys_others_constume_back"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_constume_back"
+        />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/main_keys_wait_form"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_wait_form"
+        />
+        <Button
+            android:id="@+id/main_keys_go_form"
+	        style="@style/MainKeysNumsStyle"
+	        android:text="@string/main_others_go_form"
+        />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">华隆软件</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_splash">扉页</string>
+    <string name="login_text_logo">华隆云POS支付系统</string>
+    <string name="login_lable">登录</string>
+    <string name="login_btn_sure">登录</string>
+    <string name="login_btn_exit">取消</string>
+    <string name="login_hint_password">密码</string>
+    <string name="login_hint_account">账户</string>
+    <string name="login_progress_ing">正在登录...</string>
+    <string name="login_forget_password">忘记密码</string>
+    
+    <string name="main_keys_1">1</string>
+    <string name="main_keys_2">2</string>
+    <string name="main_keys_3">3</string>
+    <string name="main_keys_4">4</string>
+    <string name="main_keys_5">5</string>
+    <string name="main_keys_6">6</string>
+    <string name="main_keys_7">7</string>
+    <string name="main_keys_8">8</string>
+    <string name="main_keys_9">9</string>
+    <string name="main_keys_0">0</string>
+    <string name="main_keys_dot">.</string>
+    <string name="main_keys_back_space">退格</string>
+    <string name="main_others_vip">会员</string>
+    <string name="main_others_calculate">结算</string>
+    <string name="main_others_re_print">重新打印</string>
+    <string name="main_others_goods_back">单品返仓</string>
+    <string name="main_others_amount">数量</string>
+    <string name="main_others_constume_back">客退</string>
+    <string name="main_others_wait_form">挂单</string>
+    <string name="main_others_go_form">取单</string>
+
+    <!-- f快捷键 -->
+    <string name="main_keys_F1">修改密码</string>
+    <string name="main_keys_F2">单品返仓</string>
+    <string name="main_keys_F3">客退</string>
+    <string name="main_keys_F4">数量</string>
+    <string name="main_keys_F5">结算</string>
+    <string name="main_keys_F6">重新打印</string>
+    <string name="main_keys_F7">开钱箱</string>
+    <string name="main_keys_F8">挂单</string>
+    <string name="main_keys_F9">取单</string>
+    <string name="main_keys_F10">条码秤</string>
+    <string name="main_keys_F11">更新数据库</string>
+    <string name="main_keys_F12">换班</string>
+    <string name="text_scan_codebar">"扫码: "</string>
+    
+    <string name="scan_text_codebar_goods_bar">"x 1"</string>
+    <string name="scan_btn_sure">确认</string>
+    <string name="scan_codebar_fkeys">F1..F12</string>
+    <string name="title_activity_scan_code_bar">ScanCodeBarActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    
+    <string name="main_total_agoprice">原价:</string>
+    <string name="main_total_currprince">原价:</string>
+     <string name="total_special_price">特价:</string>
+    <string name="total_vip_price">vip:</string>
+    <string name="main_total_totalmoney">小计:</string>
+    <string name="main_total_nummoney">0.0</string>
+    
+    <string name="main_goodslist_title_num">序号</string>
+    <string name="main_goodslist_title_goodsname">商品名称</string>
+    <string name="main_goodslist_title_cbarcode">条形码</string>
+    <string name="main_goodslist_title_amount">数量</string>
+    <string name="main_goodslist_title_accprice">现价</string>
+    <string name="main_goodslist_title_paymoney">金额</string>
+    
+    <string name="update_password_fragment_inputagopassword">请输入当前密码</string>
+    <string name="update_password_fragment_inputnowpassword">你要修改的密码</string>
+    <string name="update_password_fragment_inputrepassword">验证输入密码</string>
+    
+    <string name="update_password_fragment_sureupdate">确定</string>
+    <string name="update_password_fragment_exitupdate">取消</string>
+    
+    <string name="vip_fragment_input_vipnum">请输入 vip卡号</string>
+    
+    <string name="constum_back_fragment_input_sellerNum">请输入商品单号</string>
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="left|center"
+    android:clickable="false"
+    android:paddingTop="5dp"
+    android:orientation="horizontal"
+    android:background="@drawable/pay_dialog_fragment_slector"
+    android:paddingBottom="5dp"
+    android:focusable="false" >
+    
+    <ImageView 
+        android:id="@+id/pay_way_item_imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_launcher"
+        />
+    
+    <TextView 
+        android:id="@+id/pay_way_item_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="10dp"
+        android:textSize="17sp"
+        android:text="支付方式"
+        />
+
+</LinearLayout>
