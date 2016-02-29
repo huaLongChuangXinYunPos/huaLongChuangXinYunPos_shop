@@ -55,16 +55,19 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		 */
 		GetDeviceId getDeviceId=new GetDeviceId(this);
 		String CombinedID=getDeviceId.getCombinedId();
+		
+
+		
+		new Thread(this).start();
+		
+		//查询出所有   超过二十四小时的   出售商品表单中的数据    并将已经上传到    服务器的数据删除
+		initSellTableData();
+		
 		/**
 		 * 根据  硬件标识  获取当前服务器返回数据标识：
 		 */
 		new VolleyUtils(this).getVolleyDataInfo(String.format(Configs.SERVER_BASE_URL+Configs.GET_POS_Id,CombinedID),
 				this, GET_POS_ID);
-		
-		//查询出所有   超过二十四小时的   出售商品表单中的数据    并将已经上传到    服务器的数据删除
-		initSellTableData();
-		
-		new Thread(this).start();
 	}
 
 	private void initSellTableData() {
@@ -91,7 +94,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 	public void run() {
 		try {
 			
-			//获取  结算  方式：,
+//			获取  结算  方式：,
 			new VolleyUtils(this).getVolleyDataInfo(Configs.SERVER_BASE_URL+Configs.GET_PAY_CALCULATE_WAY,
 					SplashActivity.this,Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY);
 		

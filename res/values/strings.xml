@@ -55,7 +55,8 @@
     <string name="title_activity_scan_code_bar">ScanCodeBarActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
+    
+    <string name="title_activity_welcome">华隆云pos</string>
     
     <string name="main_total_agoprice">原价:</string>
     <string name="main_total_currprince">原价:</string>

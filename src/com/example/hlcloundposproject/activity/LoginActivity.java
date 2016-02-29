@@ -40,16 +40,7 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 	private EditText etAccount;
 	@ViewInject(R.id.password)
 	private EditText etPassword;
-	
-	@ViewInject(R.id.login_form)
-	private View loginForm;
-	
-	@ViewInject(R.id.login_progress)
-	private View loginProgress;
-	
-	@ViewInject(R.id.login_status_message)
-	private TextView mLoginStatusMessageView;
-	
+
 	@ViewInject(R.id.login_btn_sure)
 	private Button loginSure;
 	
@@ -68,7 +59,7 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.activity_login_in);
 		
 		ViewUtils.inject(this);
 		
@@ -80,6 +71,7 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 		 */
 		loginSure.setOnClickListener(this);
 		loginExit.setOnClickListener(this);
+		
 	}
 
 	//登录和取消的    单击事件：
@@ -158,6 +150,9 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 			case R.id.login_btn_exit:
 				finish();
 				break;
+
+			default:
+					break;
 		}
 	}
 

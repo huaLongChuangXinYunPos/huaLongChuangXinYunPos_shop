@@ -71,6 +71,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -188,6 +189,9 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	private int listViewCurrCilckPosition = 0; // 记录当前 被点击 item
 	private boolean clickItem = false;// 记录当前 listView的item是否可点击：
 	private AlertDialog dialog;// 警告框
+	
+	@ViewInject(R.id.ic_scan)
+	private ImageView cordBarScan;
 
 
 	private static final int GET_VIPGOODS_DATA_AUTHORITY = 1;// 获取 VIP商品标识标识
@@ -255,7 +259,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 
 		etCodeBar.requestFocus(); // 去掉软键盘
 
-		// 设置表格标题的背景颜色
+		// 设置   表格标题的   背景颜色
 		ViewGroup tableTitle = (ViewGroup) findViewById(R.id.table_title);
 		tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
 
@@ -377,6 +381,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 
 	private void initListener(MainActivity mainActivity) {
 		
+		cordBarScan.setOnClickListener(this);
+		
 		keys_1.setOnClickListener(this);
 		keys_2.setOnClickListener(this);
 		keys_3.setOnClickListener(this);
@@ -420,6 +426,16 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	public void onClick(View v) {
 		// 实现单击事件：
 		switch (v.getId()) {
+		
+		case R.id.ic_scan:
+			
+//			 打开扫描二维码的 数据信息：
+			Intent intent = new Intent();
+			intent.setClass(MainActivity.this, MipcaActivityCapture.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivityForResult(intent, Configs.TO_SCANACTIVITY_RESULT_CODE);
+			
+			break;
 
 		case R.id.keys_1:
 			codebar = etCodeBar.getText().toString().trim();
@@ -710,9 +726,9 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			break;
 		case R.id.main_keysF12:// 换班
 			// 跳到登录页：
-			Intent intent = new Intent();
-			intent.setClass(this, LoginActivity.class);
-			startActivity(intent);
+			Intent intent2 = new Intent();
+			intent2.setClass(this, LoginActivity.class);
+			startActivity(intent2);
 			finish();
 
 			break;
@@ -728,15 +744,20 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				printer.PrintType.Centering);
 		m_printer.PrintLineInit(18);
 		m_printer.PrintLineString(
-				"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", 18,
+				"~~~~~~~~~~~~~~~~~~~~交易~~~~~~~~~~~~~~~~~~~~", 18,
 				PrintType.Centering, true);
 		m_printer.PrintLineEnd();
 
 		m_printer.PrintLineInit(24);
-		m_printer.PrintLineString("商品名      数量      价格      金额 ", 24,
+		m_printer.PrintLineString("商品名      数量      价格      小计 ", 24,
 				PrintType.Centering, true);
 		m_printer.PrintLineEnd();
-
+		
+//		m_printer.PrintLineInit(24);
+//		m_printer.PrintStringEx("商品名      数量      价格      小计 ", 24,
+//				false, false, PrintType.Centering);
+//		m_printer.PrintLineEnd();
+		
 		for (Goods goods : list) {
 			m_printer.PrintLineInit(20);
 			m_printer.PrintLineString(goods.getcGoodsName(), 20, 30,
@@ -966,25 +987,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		return true;
 	}
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		/**
-		 * 打开 二维码 扫描仪 进行数据的扫描
-		 */
-		switch (item.getItemId()) {
-		case R.id.menu_codebar:
-
-//			 打开扫描二维码的 数据信息：
-			Intent intent = new Intent();
-			intent.setClass(MainActivity.this, MipcaActivityCapture.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivityForResult(intent, Configs.TO_SCANACTIVITY_RESULT_CODE);
-
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	/**
 	 * 获取当前 被点击的一项数据：
 	 */
@@ -1091,6 +1093,9 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			Toast.makeText(this, "结算成功，正在打印售货单...", 1).show();
 			
 			printSellForm();//打印售货单
+			
+			//记录当前销售数量     信息：将销售数量加一
+			
 			
 //			将当前销售过的     商品信息发送到    服务器：
 			

@@ -51,7 +51,7 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
          * 先设置   无标题样式的  对话框 
          */  
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);  
-        View view = inflater.inflate(R.layout.pay_dialog_dialog_fragment, container,true);  
+        View view = inflater.inflate(R.layout.pay_dialog_fragment, container,true);  
         ViewUtils.inject(this, view);
         
         list = getArguments().getStringArrayList("list");
