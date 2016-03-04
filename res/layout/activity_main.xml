@@ -10,15 +10,15 @@
 	      android:id="@+id/title"
 	      android:layout_width="match_parent"
 	      android:layout_height="45dp"
-	      android:background="#71975F" >
+	      android:background="@color/highBlue" >
 	      
-        <ImageView
-            android:id="@+id/ic_logo"
-            android:layout_marginTop="2dp"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:background="@drawable/logo"
-            />
+	        <ImageView
+	            android:id="@+id/ic_logo"
+	            android:layout_marginTop="2dp"
+	             android:layout_width="wrap_content"
+	             android:layout_height="wrap_content"
+	             android:background="@drawable/logo"
+	            />
 
             <TextView
 	            android:id="@+id/tv_titles"
@@ -30,7 +30,7 @@
 	            android:text="华隆云pos"
 	            android:textColor="#000000"
 	            android:textSize="20sp"
-	            tools:ignore="HardcodedText"/>
+	            />
            
            <ImageView
             	android:id="@+id/ic_scan"
@@ -40,7 +40,7 @@
              	android:layout_marginRight="4dp"
             	android:layout_height="wrap_content"
             	android:background="@drawable/scan_code_bar_bg_selector"
-            />
+            	/>
 	</RelativeLayout>
     
     <LinearLayout
@@ -53,7 +53,7 @@
         <View 
 	       android:layout_width="match_parent"
 	       android:layout_height="1dip"
-	       android:background="#A7A5A5"/>
+	       android:background="@color/highBlue"/>
 	    
 	    <include 
 	        layout="@layout/goods_list_item"
@@ -62,7 +62,7 @@
 	    <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1.5dip"
-	        android:background="#686867"/>
+	        android:background="@color/highBlue"/>
 	
 	    <ListView
 	        android:id="@+id/list"
@@ -88,7 +88,7 @@
          <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1.5dip"
-	        android:background="#686867"/>
+	        android:background="@color/highBlue"/>
 	    
             <include 
 	             android:id="@+id/main_total_price"
@@ -97,7 +97,7 @@
 	        <View 
 		        android:layout_width="match_parent"
 		        android:layout_height="1.5dip"
-		        android:background="#686867"/>
+		        android:background="@color/highBlue"/>
 	        
 	        <include
 	            android:id="@+id/main_scan_codeBar"
@@ -107,11 +107,12 @@
         <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1.5dip"
-	        android:background="#686867"/>
+	        android:background="@color/highBlue"/>
       
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#F0F0F0"
             >
 	         <LinearLayout
 	            android:baselineAligned="false"
@@ -119,7 +120,6 @@
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
 	            android:orientation="horizontal"
-	            android:background="#726D69"
 	            >
 	            
 	            <include 

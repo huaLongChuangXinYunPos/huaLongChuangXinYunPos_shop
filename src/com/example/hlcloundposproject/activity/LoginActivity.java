@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.hlcloundposproject.Configs;
-import com.example.hlcloundposproject.Constants;
+import com.example.hlcloundposproject.Content;
 import com.example.hlcloundposproject.MainActivity;
 import com.example.hlcloundposproject.R;
 import com.example.hlcloundposproject.db.MyOpenHelper;
@@ -64,7 +64,7 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 		ViewUtils.inject(this);
 		
 		userHelper = new MyOpenHelper(LoginActivity.this,
-				Constants.USER_INFO_DB_NAME);
+				Content.USER_INFO_DB_NAME);
 		
 		/**
 		 * 初始化编辑事件    和登录事件
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 				
 				userdb = userHelper.getReadableDatabase();
 				
-				Cursor cursor = userdb.query(Constants.TABLE_USERS_NAME,
+				Cursor cursor = userdb.query(Content.TABLE_USERS_NAME,
 						new String[]{"user","password","name","right","ki","quanXian"},
 						"user = '"+ account+"'", null,null, null, null);
 				
@@ -191,7 +191,7 @@ public class LoginActivity extends Activity implements OnClickListener, TaskCall
 							values.put("right", user.getRight());
 							values.put("user",user.getUser());
 							
-							userdb.insert(Constants.TABLE_USERS_NAME, null, values);
+							userdb.insert(Content.TABLE_USERS_NAME, null, values);
 						}else{
 							MyProgressDialog.stopProgress();
 							Toast.makeText(this, "请验证输入密码", Toast.LENGTH_SHORT).show();

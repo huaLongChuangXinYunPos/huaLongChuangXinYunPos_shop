@@ -1,6 +1,6 @@
 package com.example.hlcloundposproject.db;
 
-import com.example.hlcloundposproject.Constants;
+import com.example.hlcloundposproject.Content;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,33 +17,33 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		if(name.equals(Constants.GOODS_DB_NAME)){
+		if(name.equals(Content.GOODS_DB_NAME)){
 			/**
 			 * 创建     商品基本信息表：
 			 */
-			db.execSQL(String.format(Constants.CREATE_TABLE_GOODS_ENTITY, Constants.TABLE_FORMNALPRICE));
+			db.execSQL(String.format(Content.CREATE_TABLE_GOODS_ENTITY, Content.TABLE_FORMNALPRICE));
 			/**
 			 * 创建    特价商品信息表：
 			 */
-			db.execSQL(String.format(Constants.CREATE_TABLE_SPECTIAL_GOODS_ENTITY, Constants.TABLE_SPECIALPRICE));
+			db.execSQL(String.format(Content.CREATE_TABLE_SPECTIAL_GOODS_ENTITY, Content.TABLE_SPECIALPRICE));
 			/**
 			 * 创建    VIP商品的信息表：
 			 */
-			db.execSQL(String.format(Constants.CREATE_TABLE_VIPGOODS_ENTITY,Constants.TABLE_VIPGOODS_PRICE));
+			db.execSQL(String.format(Content.CREATE_TABLE_VIPGOODS_ENTITY,Content.TABLE_VIPGOODS_PRICE));
 			/**
 			 * 创建   结算类型表：
 			 */
-			db.execSQL(String.format(Constants.CREATE_TEMP_JSTYPE_ENTITY,Constants.TABLE_JSTYPE_NAME));
+			db.execSQL(String.format(Content.CREATE_TEMP_JSTYPE_ENTITY,Content.TABLE_JSTYPE_NAME));
 			/**
 			 * 创建   出售商品的     商品出售表：
 			 */
-			db.execSQL(String.format(Constants.CREATE_TABLE_SELL_FORM_ENTITY, Constants.TABLE_SELL_FORM));
+			db.execSQL(String.format(Content.CREATE_TABLE_SELL_FORM_ENTITY, Content.TABLE_SELL_FORM));
 			
-		}else if(name.equals(Constants.USER_INFO_DB_NAME)){
+		}else if(name.equals(Content.USER_INFO_DB_NAME)){
 			/**
 			 * 创建   用户基本信息表：
 			 */
-			db.execSQL(Constants.CREATE_TABLE_USER_ENTITY);
+			db.execSQL(Content.CREATE_TABLE_USER_ENTITY);
 		}
 	}
 

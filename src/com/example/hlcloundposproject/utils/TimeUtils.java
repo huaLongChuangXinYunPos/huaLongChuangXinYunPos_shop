@@ -12,13 +12,8 @@ import java.util.Date;
  */
 public final class TimeUtils {
 	
-	/**
-	 * 获取系统当前时间   作为 挂单数据的表名
-	 * @return
-	 */
 	public static String getSystemNowTime(String formatPattern) {
 		SimpleDateFormat df = new SimpleDateFormat(formatPattern);
-		long date = System.currentTimeMillis();															
 		String time = df.format(new Date());
 		return time;
 	}

@@ -11,13 +11,18 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int blue=0x7f050002;
+        public static final int black=0x7f050002;
+        public static final int blue=0x7f050005;
         public static final int darkGray=0x7f050001;
-        public static final int gray=0x7f050003;
-        public static final int possible_result_points=0x7f050006;
+        public static final int gray=0x7f050006;
+        public static final int highBlue=0x7f050003;
+        public static final int highLowRed=0x7f050008;
+        public static final int lowGray=0x7f050004;
+        public static final int lowRed=0x7f050007;
+        public static final int possible_result_points=0x7f05000b;
         public static final int red=0x7f050000;
-        public static final int result_view=0x7f050004;
-        public static final int viewfinder_mask=0x7f050005;
+        public static final int result_view=0x7f050009;
+        public static final int viewfinder_mask=0x7f05000a;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -45,40 +50,41 @@ public final class R {
         public static final int btn_orange_selector=0x7f020002;
         public static final int hl_splash=0x7f020003;
         public static final int ic_launcher=0x7f020004;
-        public static final int keys_nums_btn_selector=0x7f020005;
-        public static final int keys_nums_btn_shape_normal=0x7f020006;
-        public static final int keys_nums_btn_shape_pressed=0x7f020007;
-        public static final int listview_bg=0x7f020008;
-        public static final int login_account=0x7f020009;
-        public static final int login_pwd=0x7f02000a;
-        public static final int logo=0x7f02000b;
-        public static final int main_scan_edittext_shape=0x7f02000c;
-        public static final int mm_title_back_btn=0x7f02000d;
-        public static final int mm_title_back_focused=0x7f02000e;
-        public static final int mm_title_back_normal=0x7f02000f;
-        public static final int mm_title_back_pressed=0x7f020010;
-        public static final int mmtitle_bg_alpha=0x7f020011;
-        public static final int pay_bank_card=0x7f020012;
-        public static final int pay_chuzhihuanbi=0x7f020013;
-        public static final int pay_dialog_fragment_slector=0x7f020014;
-        public static final int pay_jingdong_bujia=0x7f020015;
-        public static final int pay_jingdong_chajia=0x7f020016;
-        public static final int pay_jingdong_to_home=0x7f020017;
-        public static final int pay_lijinkoukuan=0x7f020018;
-        public static final int pay_liquan=0x7f020019;
-        public static final int pay_qianbaokoukuan=0x7f02001a;
-        public static final int pay_rmb=0x7f02001b;
-        public static final int pay_title=0x7f02001c;
-        public static final int pay_vip=0x7f02001d;
-        public static final int pay_wechat=0x7f02001e;
-        public static final int pay_xianjincard=0x7f02001f;
-        public static final int pay_zhifubao=0x7f020020;
-        public static final int scan_btn_selector=0x7f020021;
-        public static final int scan_btn_shape_normal=0x7f020022;
-        public static final int scan_btn_shape_pressed=0x7f020023;
-        public static final int scan_code_bar_bg_normal=0x7f020024;
-        public static final int scan_code_bar_bg_press=0x7f020025;
-        public static final int scan_code_bar_bg_selector=0x7f020026;
+        public static final int keys_num_textcolor_selector=0x7f020005;
+        public static final int keys_nums_btn_selector=0x7f020006;
+        public static final int keys_nums_btn_shape_normal=0x7f020007;
+        public static final int keys_nums_btn_shape_pressed=0x7f020008;
+        public static final int listview_bg=0x7f020009;
+        public static final int login_account=0x7f02000a;
+        public static final int login_pwd=0x7f02000b;
+        public static final int logo=0x7f02000c;
+        public static final int main_scan_edittext_shape=0x7f02000d;
+        public static final int mm_title_back_btn=0x7f02000e;
+        public static final int mm_title_back_focused=0x7f02000f;
+        public static final int mm_title_back_normal=0x7f020010;
+        public static final int mm_title_back_pressed=0x7f020011;
+        public static final int mmtitle_bg_alpha=0x7f020012;
+        public static final int pay_bank_card=0x7f020013;
+        public static final int pay_chuzhihuanbi=0x7f020014;
+        public static final int pay_dialog_fragment_slector=0x7f020015;
+        public static final int pay_jingdong_bujia=0x7f020016;
+        public static final int pay_jingdong_chajia=0x7f020017;
+        public static final int pay_jingdong_to_home=0x7f020018;
+        public static final int pay_lijinkoukuan=0x7f020019;
+        public static final int pay_liquan=0x7f02001a;
+        public static final int pay_qianbaokoukuan=0x7f02001b;
+        public static final int pay_rmb=0x7f02001c;
+        public static final int pay_title=0x7f02001d;
+        public static final int pay_vip=0x7f02001e;
+        public static final int pay_wechat=0x7f02001f;
+        public static final int pay_xianjincard=0x7f020020;
+        public static final int pay_zhifubao=0x7f020021;
+        public static final int scan_btn_selector=0x7f020022;
+        public static final int scan_btn_shape_normal=0x7f020023;
+        public static final int scan_btn_shape_pressed=0x7f020024;
+        public static final int scan_code_bar_bg_normal=0x7f020025;
+        public static final int scan_code_bar_bg_press=0x7f020026;
+        public static final int scan_code_bar_bg_selector=0x7f020027;
     }
     public static final class id {
         public static final int ImageView02=0x7f07001b;

@@ -59,7 +59,7 @@ public final class Configs {
 	/**
 	 * 定义      打开    扫描Activity   请求数据的请求码：
 	 */
-	public static final int TO_SCANACTIVITY_RESULT_CODE = 1;
+	public static final int TO_SCAN_CODEBAR_RESULT_CODE = 14;
 	
 	/**
 	 * 定义  获取 所有结算方式 的    fragment的标识
@@ -75,11 +75,6 @@ public final class Configs {
 	 * 获取  结算 结果的    异步标识
 	 */
 	public static final int GET_PAY_CALCULATE_RESULT_AUTHORITY = 7;
-	
-
-	//参数
-	public static String ACTIVITY_BACK_RESULT = "result";
-	
 	
 	/**
 	 * 查询单条   数据信息
@@ -135,7 +130,6 @@ public final class Configs {
 	 */
 	public static final String UPDATE_VIP_SCORE = "GetVip.aspx?action=RQSCO&vipNo=%s&fValue=%s";
 
-	
 	/**
 	 * 客退回回调    标识  backFragment
 	 */
@@ -150,6 +144,15 @@ public final class Configs {
 	 * 用户 选择挂单表的 回退SelectFormTempFragment
 	 */
 	public static final int SELECT_TEMP_FRAGMENT_AUTHORITY = 0;
+
+	/**
+	 * 代表   共享参数中pos机的id
+	 */
+	public static final String POS_ID = "posid";
+	
+	public static final int SCANNIN_ALI_REQUEST_CODE = 13;//支付宝扫描返回码
+	
+	public static final int SCANNIN_WE_CHAT_REQUEST_CODE = 30; //微信扫描返回码
 
 	
 }

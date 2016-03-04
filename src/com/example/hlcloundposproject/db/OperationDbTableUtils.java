@@ -1,6 +1,6 @@
 package com.example.hlcloundposproject.db;
 
-import com.example.hlcloundposproject.Constants;
+import com.example.hlcloundposproject.Content;
 import com.example.hlcloundposproject.entity.Goods;
 import com.example.hlcloundposproject.entity.JsType;
 import com.example.hlcloundposproject.entity.SpecialGoods;
@@ -147,7 +147,7 @@ public final class OperationDbTableUtils {
 		Cursor cursor = null;
 		SQLiteDatabase goodsDataDb = goodsDataHelper.getReadableDatabase();
 		goodsDataDb.beginTransaction();
-		cursor = goodsDataDb.query("t_"+Constants.TABLE_FORMNALPRICE, new String[]{"*"}, 
+		cursor = goodsDataDb.query("t_"+Content.TABLE_FORMNALPRICE, new String[]{"*"}, 
 					" cBarCode = '"+codrBar+"'", null, null, null, null);
 		goodsDataDb.setTransactionSuccessful();
 		goodsDataDb.endTransaction();
@@ -208,7 +208,7 @@ public final class OperationDbTableUtils {
 		values.put("right", user.getRight());
 		values.put("user",user.getUser());
 					
-		userdb.insert(Constants.TABLE_USERS_NAME, null, values);
+		userdb.insert(Content.TABLE_USERS_NAME, null, values);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public final class OperationDbTableUtils {
 		insertVipGoodsWeek(vipGood, values);
 		insertSpecialHour(vipGood, values);
 		
-		goodsDb.insert("t_"+Constants.TABLE_VIPGOODS_PRICE, null, values);
+		goodsDb.insert("t_"+Content.TABLE_VIPGOODS_PRICE, null, values);
 		
 	}
 
@@ -290,7 +290,7 @@ public final class OperationDbTableUtils {
 		values.put("zhekou",jstype.getZhekou());
 		values.put("detail", jstype.getDetail());
 					
-		tempDb.insert("t_"+Constants.TABLE_JSTYPE_NAME, null, values);
+		tempDb.insert("t_"+Content.TABLE_JSTYPE_NAME, null, values);
 	}
 
 	
@@ -300,7 +300,7 @@ public final class OperationDbTableUtils {
 			"vipCardNo text,dSellTime text,cOperationName text,cSaleSheetNo text,isUp text,exactlyTime text)
 	 */
 	public static void sellGoodsInsertTable(SQLiteDatabase goodsDataDb,String[] payStrs, Goods goods
-			,boolean isVip,String cVipNo,String vipScore,User user) {
+			,boolean isVip,String cVipNo,String vipScore,User user,String sheetNo) {
 		
 		long time = System.currentTimeMillis();
 		
@@ -354,16 +354,14 @@ public final class OperationDbTableUtils {
 		
 		values.put("cOperationName", user.getName());  //操作员姓名：
 		
-		values.put("cSaleSheetNo", goods.getcBarcode());  //商品销售单号:  02 20160226 0032
+		values.put("cSaleSheetNo",sheetNo);  //商品销售单号:  02 20160226 0032
 		
 		values.put("isUp", 0);
 		
 		values.put("exactlyTime", TimeUtils.getSystemNowTime("yyyy-MM-dd/HH:mm:ss"));
 		
-		goodsDataDb.insert("t_" + Constants.TABLE_SELL_FORM, null, values);
+		goodsDataDb.insert("t_" + Content.TABLE_SELL_FORM, null, values);
 	}
-	
-	
 	
 	/**
 	 * 查询 vip特价商品信息：
@@ -371,7 +369,7 @@ public final class OperationDbTableUtils {
 	public static Cursor getVipCursor(SQLiteDatabase goodsDataDb,Goods item) {
 		Cursor vipGoodsCursor = null;
 		vipGoodsCursor = goodsDataDb.rawQuery(
-				"select * from t_" + Constants.TABLE_VIPGOODS_PRICE
+				"select * from t_" + Content.TABLE_VIPGOODS_PRICE
 						+ " where cBarCode = '" + item.getcBarcode() + "'",
 				null);
 		return vipGoodsCursor;
@@ -383,8 +381,8 @@ public final class OperationDbTableUtils {
 	public static Cursor getSpGoodsCursor(SQLiteDatabase goodsDataDb,String nowTime, Goods item) {
 		Cursor spGoodsCursor = null;
 		spGoodsCursor = goodsDataDb.rawQuery(
-				"select b.* from t_" + Constants.TABLE_FORMNALPRICE + " a,"
-						+ "t_" + Constants.TABLE_SPECIALPRICE + " b "
+				"select b.* from t_" + Content.TABLE_FORMNALPRICE + " a,"
+						+ "t_" + Content.TABLE_SPECIALPRICE + " b "
 						+ "where a.cGoodsNo = b.cGoodsNo and a.[cBarcode] = '"
 						+ item.getcBarcode() + "' " + "and '" + nowTime
 						+ "' between b.[dDateStart]" + " and b.[dDateEnd]",

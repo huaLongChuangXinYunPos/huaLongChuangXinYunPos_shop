@@ -11,7 +11,7 @@ import com.example.hlcloundposproject.activity.LoginActivity;
 import com.example.hlcloundposproject.db.MyOpenHelper;
 import com.example.hlcloundposproject.entity.User;
 import com.example.hlcloundposproject.Configs;
-import com.example.hlcloundposproject.Constants;
+import com.example.hlcloundposproject.Content;
 import com.example.hlcloundposproject.R;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -64,7 +64,7 @@ public class UpdateUserPwdDialog extends DialogFragment implements OnClickListen
 			Bundle savedInstanceState){
 		
 		//获取数据库  帮助类
-		userDbHelper = new MyOpenHelper(getActivity(),Constants.USER_INFO_DB_NAME);
+		userDbHelper = new MyOpenHelper(getActivity(),Content.USER_INFO_DB_NAME);
 		
 		getDialog().setTitle("修改密码");
 		
@@ -152,7 +152,7 @@ public class UpdateUserPwdDialog extends DialogFragment implements OnClickListen
 									
 								values.put("password",rePwdStr);
 									
-								userdb.update(Constants.TABLE_USERS_NAME,
+								userdb.update(Content.TABLE_USERS_NAME,
 								values, " user = ?", 
 								new String[]{user.getUser()});
 									

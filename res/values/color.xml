@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <color name="red">#FF0030</color>
-    <color name="darkGray">#726D69</color>
+    <color name="red">#FF322F</color>
+    <color name="darkGray">#BBBBBB</color>
+    
+    <color name="black">#000000</color>
+    
+    <color name="highBlue">#579A0B</color>
+    
+    <color name="lowGray">#F5F5F5</color>
     
     <color name="blue">#055EC4</color>
     <color name="gray">#C1C1C1</color>
+    
+    <color name="lowRed">#FF7700</color>
+    
     
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>

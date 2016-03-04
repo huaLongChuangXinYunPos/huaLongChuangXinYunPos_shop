@@ -15,7 +15,7 @@ import com.example.hlcloundposproject.utils.GetDeviceId;
 import com.example.hlcloundposproject.utils.VolleyUtils;
 import com.example.hlcloundposproject.utils.VolleyUtils.VolleyCallback;
 import com.example.hlcloundposproject.Configs;
-import com.example.hlcloundposproject.Constants;
+import com.example.hlcloundposproject.Content;
 import com.example.hlcloundposproject.R;
 
 import android.os.Bundle;
@@ -46,17 +46,14 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		
 		setContentView(R.layout.activity_splash);
 		
-		userHelper = new MyOpenHelper(SplashActivity.this,Constants.USER_INFO_DB_NAME);
-		goodsHelper = new MyOpenHelper(SplashActivity.this, Constants.GOODS_DB_NAME);
-		
+		userHelper = new MyOpenHelper(SplashActivity.this,Content.USER_INFO_DB_NAME);
+		goodsHelper = new MyOpenHelper(SplashActivity.this, Content.GOODS_DB_NAME);
 		
 		/**
-		 * 获取  当前  手机唯一标识： 
+		 * 获取     当前     手机唯一标识： 
 		 */
-		GetDeviceId getDeviceId=new GetDeviceId(this);
-		String CombinedID=getDeviceId.getCombinedId();
-		
-
+		GetDeviceId getDeviceId = new GetDeviceId(this);
+		String CombinedID = getDeviceId.getCombinedId();
 		
 		new Thread(this).start();
 		
@@ -64,7 +61,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		initSellTableData();
 		
 		/**
-		 * 根据  硬件标识  获取当前服务器返回数据标识：
+		 * 根据    硬件标识    获取当前服务器返回数据标识：
 		 */
 		new VolleyUtils(this).getVolleyDataInfo(String.format(Configs.SERVER_BASE_URL+Configs.GET_POS_Id,CombinedID),
 				this, GET_POS_ID);
@@ -74,7 +71,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		goodsDb = goodsHelper.getReadableDatabase();
 		
 		goodsDb.beginTransaction();
-		Cursor cursor = goodsDb.query("t_"+Constants.TABLE_SELL_FORM, new String[]{"dSellTime","isUp"}, null,
+		Cursor cursor = goodsDb.query("t_"+Content.TABLE_SELL_FORM, new String[]{"dSellTime","isUp"}, null,
 				null, null, null, null);
 			
 		long currTime = System.currentTimeMillis();
@@ -83,7 +80,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 			long sellTime = Long.parseLong(cursor.getString(cursor.getColumnIndex("dSellTime")));
 			String isUp = cursor.getString(cursor.getColumnIndex("isUp"));
 			if(((currTime-sellTime)/(60*60*1000)>24) && isUp.equals("1")){ //删除   当前    超过  24小时   并且已经上传到服务器的   商品数据
-				goodsDb.delete("t_"+Constants.TABLE_SELL_FORM, "dSellTime = '"+sellTime+"'", null);
+				goodsDb.delete("t_"+Content.TABLE_SELL_FORM, "dSellTime = '"+sellTime+"'", null);
 			}
 		}
 		goodsDb.setTransactionSuccessful();
@@ -99,12 +96,12 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 					SplashActivity.this,Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY);
 		
 			
-//			访问  服务器  获取所有用户信息   添加进   用户信息表
+//			访问     服务器      获取所有用户信息     添加进      用户信息表
 			new VolleyUtils(SplashActivity.this).getVolleyDataInfo(
 					Configs.SERVER_BASE_URL+Configs.QUERY_ALL_USERS_DATA,
 					SplashActivity.this,GET_USERS_DATA_AUTHORITY);
 			
-//			访问   服务器    获取     VIP  商品特价信息：
+//			访问   服务器    获取     VIP  商品  信息：
 			new VolleyUtils(SplashActivity.this).getVolleyDataInfo(
 					Configs.SERVER_BASE_URL+Configs.QUERY_VIP_GOODS_DATA,
 					SplashActivity.this,GET_VIPGOODS_DATA_AUTHORITY);
@@ -147,7 +144,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 						Configs.APP_NAME,MODE_PRIVATE);
 				
 				//获取  pos机Id  保存到  sp
-				String localPosId = sp.getString("posid", 
+				String localPosId = sp.getString(Configs.POS_ID, 
 						"01");
 				
 				if(!localPosId.equals("serverPosId")){
@@ -169,7 +166,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 						userdb = userHelper.getWritableDatabase();
 
 						//清空当前表内所有信息：
-						userdb.execSQL("delete from "+Constants.TABLE_USERS_NAME);
+						userdb.execSQL("delete from "+Content.TABLE_USERS_NAME);
 						
 						userdb.beginTransaction();
 						for(User user :users){
@@ -190,7 +187,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 						ArrayList<VIPGoods> vipGoods = FastJsonUtils.getListFromArray(array,VIPGoods.class);
 						
 						//清空当前表内所有信息：
-						goodsDb.execSQL("delete from t_"+Constants.TABLE_VIPGOODS_PRICE);
+						goodsDb.execSQL("delete from t_"+Content.TABLE_VIPGOODS_PRICE);
 						
 						goodsDb.beginTransaction();
 						for(VIPGoods vipGood :vipGoods){
@@ -210,12 +207,12 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 						ArrayList<SpecialGoods> spGoods = FastJsonUtils.getListFromArray(array,SpecialGoods.class);
 						
 						//清空当前表内所有信息：
-						goodsDb.execSQL("delete from t_" + Constants.TABLE_SPECIALPRICE);
+						goodsDb.execSQL("delete from t_" + Content.TABLE_SPECIALPRICE);
 						
 						goodsDb.beginTransaction();
 						for(SpecialGoods vipGood : spGoods){
 							//插入信息  到  用户  数据表内：
-							OperationDbTableUtils.insertSpecialGoodsToTable(goodsDb, vipGood,Constants.TABLE_SPECIALPRICE);
+							OperationDbTableUtils.insertSpecialGoodsToTable(goodsDb, vipGood,Content.TABLE_SPECIALPRICE);
 						}
 						goodsDb.setTransactionSuccessful();
 						goodsDb.endTransaction();
@@ -229,13 +226,13 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 						ArrayList<JsType> jsTypes = FastJsonUtils.getListFromArray(array,JsType.class);
 						
 						//清空当前表内所有信息：
-						goodsDb.execSQL("delete from t_" + Constants.TABLE_JSTYPE_NAME);
+						goodsDb.execSQL("delete from t_" + Content.TABLE_JSTYPE_NAME);
 						
 						goodsDb.beginTransaction();
 						
 						for(JsType jstype : jsTypes){
 							//插入信息  到  用户  数据表内：
-							OperationDbTableUtils.insertTempJsType(goodsDb, jstype,Constants.TABLE_JSTYPE_NAME);
+							OperationDbTableUtils.insertTempJsType(goodsDb, jstype,Content.TABLE_JSTYPE_NAME);
 						}
 						goodsDb.setTransactionSuccessful();
 						goodsDb.endTransaction();

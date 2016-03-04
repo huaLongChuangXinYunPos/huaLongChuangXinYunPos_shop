@@ -55,6 +55,7 @@
         <item name="android:textSize">@dimen/main_keys_text_size</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_margin">1dp</item>
+        <item name="android:textColor">@drawable/keys_num_textcolor_selector</item>
         <item name="android:background">@drawable/keys_nums_btn_selector</item>
     </style>
 

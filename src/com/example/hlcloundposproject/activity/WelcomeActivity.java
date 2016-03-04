@@ -21,7 +21,6 @@ public class WelcomeActivity extends Activity implements Runnable {
 		SharedPreferences sp = getSharedPreferences(
 				Configs.APP_NAME, MODE_PRIVATE);
 		
-		
 		int versionCode = 0;
 		String versionName = "version";
 		try {

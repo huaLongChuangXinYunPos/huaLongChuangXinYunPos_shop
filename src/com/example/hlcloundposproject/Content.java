@@ -1,7 +1,7 @@
 package com.example.hlcloundposproject;
 
 //数据库操作的     字符串封装类：
-public final class Constants {
+public final class Content {
 	
 	/**
 	 * 定义   访问    操作 数据库的 provider 的标识：
@@ -126,4 +126,19 @@ public final class Constants {
 			"executePrice numeric(10,4),isSpeG text,spPrice numeric(10,4),isVip text,vipPrice numeric(10,4),vipScore numeric(10,4)," +
 			"vipCardNo text,dSellTime text,cOperationName text,cSaleSheetNo text,isUp text,exactlyTime text)";
 	
+	
+	public static final String CHAR_SET = "GBK";  //编码集
+	
+	//商户加密  私钥
+	public static final String PRIVATE_KEY = "9c1Ick1pYX50YB3GOcWNsZCEi9m0XL9S";//商户私钥
+	
+	//商户pid  支付宝签约商户    会提供
+	public static final String SHOP_PID ="3088677747502334";
+	
+	//服务器    地址
+	public static final String SERVER_IP = "121.199.41.235";
+	
+	//服务器   端口：
+	public static final int SERVER_PORT = 6666;//连接端口号
+
 }

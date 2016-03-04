@@ -21,32 +21,11 @@
 	    <TextView
 	        android:id="@+id/total_ago_money" 
 	        style="@style/MainTotalPriceTVStyle"
-	        android:textColor="#008A48"
+	        android:textColor="@color/lowRed"
 	        android:text="@string/main_total_nummoney"
 	        />
 	</LinearLayout>
 	
-	<!-- 
-	<LinearLayout
-	    android:layout_width="0dp"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
-	    android:gravity="center"
-	    android:orientation="horizontal"
-	    >
-	    <TextView 
-	        style="@style/MainTotalPriceTextStyle"
-	        android:text="@string/main_total_currprince"
-	        />
-		<TextView 
-		    android:id="@+id/total_acc_price"
-	        style="@style/MainTotalPriceTVStyle"
-	        android:textColor="#008A48"
-	        android:text="@string/main_total_nummoney"
-	        />
-	</LinearLayout>
-	 -->
-	 
 	<LinearLayout
 	    android:layout_width="0dp"
 	    android:layout_height="wrap_content"
@@ -61,7 +40,7 @@
 		<TextView 
 		    android:id="@+id/total_special_price"
 	        style="@style/MainTotalPriceTVStyle"
-	        android:textColor="#008A48"
+	        android:textColor="@color/lowRed"
 	        android:text="@string/main_total_nummoney"
 	        />
 	</LinearLayout>
@@ -80,7 +59,7 @@
 		<TextView 
 		    android:id="@+id/total_vip_price"
 	        style="@style/MainTotalPriceTVStyle"
-	        android:textColor="#008A48"
+	        android:textColor="@color/lowRed"
 	        android:text="@string/main_total_nummoney"
 	        />
 	</LinearLayout>
@@ -99,7 +78,7 @@
 		<TextView 
 		    android:id="@+id/total_money"
 	        style="@style/MainTotalPriceTVStyle"
-	        android:textColor="#1F33ED"
+	        android:textColor="@color/highBlue"
 	        android:text="@string/main_total_nummoney"
 	        />
 	</LinearLayout>
