@@ -16,13 +16,12 @@ public final class R {
         public static final int darkGray=0x7f050001;
         public static final int gray=0x7f050006;
         public static final int highBlue=0x7f050003;
-        public static final int highLowRed=0x7f050008;
         public static final int lowGray=0x7f050004;
         public static final int lowRed=0x7f050007;
-        public static final int possible_result_points=0x7f05000b;
+        public static final int possible_result_points=0x7f05000a;
         public static final int red=0x7f050000;
-        public static final int result_view=0x7f050009;
-        public static final int viewfinder_mask=0x7f05000a;
+        public static final int result_view=0x7f050008;
+        public static final int viewfinder_mask=0x7f050009;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 

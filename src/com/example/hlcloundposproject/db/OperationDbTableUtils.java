@@ -137,21 +137,17 @@ public final class OperationDbTableUtils {
 	}
 
 	/**
-	 * 从商品基本信息表     中  查找    商品
+	 * 从商品基本信息表     中  查找    商品    根据条码:
 	 * @param codrBar
 	 * @param goodsDataHelper
 	 * @return
 	 */
 	public static Cursor selectDataFromLocal(String codrBar,
 			MyOpenHelper goodsDataHelper) {
-		Cursor cursor = null;
-		SQLiteDatabase goodsDataDb = goodsDataHelper.getReadableDatabase();
-		goodsDataDb.beginTransaction();
-		cursor = goodsDataDb.query("t_"+Content.TABLE_FORMNALPRICE, new String[]{"*"}, 
-					" cBarCode = '"+codrBar+"'", null, null, null, null);
-		goodsDataDb.setTransactionSuccessful();
-		goodsDataDb.endTransaction();
 		
+		SQLiteDatabase goodsDataDb = goodsDataHelper.getReadableDatabase();
+		Cursor cursor = goodsDataDb.query("t_"+Content.TABLE_FORMNALPRICE, new String[]{"*"}, 
+					" cBarcode = '"+codrBar+"'", null, null, null, null);
 		return cursor;
 	}
 
@@ -388,6 +384,18 @@ public final class OperationDbTableUtils {
 						+ "' between b.[dDateStart]" + " and b.[dDateEnd]",
 				null);
 		return spGoodsCursor;
+	}
+
+	//将     销售出来的      表单信息      转换成      商品基本信息
+	public static Goods sellGoodsToGoodsEntity(Cursor cursor,Goods goods) {
+		
+		//遍历游标集合
+		goods.setcBarcode(cursor.getString(cursor.getColumnIndex("cBarCode")));
+		goods.setAmount(Float.parseFloat(cursor.getString(cursor.getColumnIndex("sellAmount"))));//设置默认  数量和    金额为当前价格
+		goods.setfNormalPrice(cursor.getFloat(cursor.getColumnIndex("fNormalPrice")));
+		goods.setPayMoney(cursor.getDouble(cursor.getColumnIndex("goodsMoney")));
+
+		return goods;
 	};
 
 }

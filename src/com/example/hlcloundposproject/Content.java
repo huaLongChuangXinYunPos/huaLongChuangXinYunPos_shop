@@ -4,7 +4,7 @@ package com.example.hlcloundposproject;
 public final class Content {
 	
 	/**
-	 * 定义   访问    操作 数据库的 provider 的标识：
+	 * 定义         访问          操作 数据库的 provider 的标识：
 	 */
 	public static final String PROVIDER_AUTHORITY = "com.hlrj.hlcloundpos.userdatadb.t_users";
 	
@@ -117,6 +117,7 @@ public final class Content {
 	 * 记录当前销售情况的  销售表：
 	 */
 	public static final String TABLE_SELL_FORM = "sell";
+	
 	/**
 	 * 创建   销售情况的销售表：
 	 */

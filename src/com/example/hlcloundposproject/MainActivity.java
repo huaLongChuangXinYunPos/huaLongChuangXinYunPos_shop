@@ -54,6 +54,8 @@ import com.mining.app.zxing.MipcaActivityCapture;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.print.PrintAttributes;
+import android.provider.SyncStateContract.Constants;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -226,7 +228,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				etCodeBar.setSelection(etCodeBar.getText().length());
 				// 播放声音
 				Scanner.play();
-				
 				break;
 			}
 
@@ -248,7 +249,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				printSellForm();
 				break;
 			}
-
+			
 			default:
 				break;
 			}
@@ -261,7 +262,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		setContentView(R.layout.activity_main);
 
 		user = (User) getIntent().getSerializableExtra("user");// 获取当前用户对象
-		
 		goodsDataHelper = new MyOpenHelper(MainActivity.this,
 				Content.GOODS_DB_NAME);
 		tempDatahelper = new MyOpenHelper(MainActivity.this,
@@ -289,8 +289,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		
 		m_printer.Open();
 		
-		sp = getSharedPreferences(
-				Configs.APP_NAME, MODE_PRIVATE);
+		sp = getSharedPreferences(Configs.APP_NAME, MODE_PRIVATE);
 		dayDate = TimeUtils.getSystemNowTime("yyyy-MM-dd");//获取      当天数据
 	} 
 
@@ -324,17 +323,15 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			goodsDataDb = goodsDataHelper.getReadableDatabase();
 
 			for (Goods item : list) {
-				// 判断 商品中   是否有特价商品： 计算    商品特价信息 如果 有特价商品     计算特价商品信息 和 vip商品价格：：
+				// 判断     商品中    是否有特价商品：   计算     商品特价信息 如果 有特价商品     计算特价商品信息 和 vip商品价格：：
 				Cursor spGoodsCursor = OperationDbTableUtils.getSpGoodsCursor(goodsDataDb,nowTime, item);
 				Cursor vipGoodsCursor = OperationDbTableUtils.getVipCursor(goodsDataDb,item);
-				
 				// 查询到 特价商品信息的话：直接使用 该 特价商品的 特殊价格：
 				if (spGoodsCursor.moveToFirst()) {
 					// 获取      特价商品的特殊价格：
 					float spPrice = Float.parseFloat(spGoodsCursor
 							.getString(spGoodsCursor
 									.getColumnIndex("fPrice_SO")));
-
 					if (vipInput && vipGoodsCursor.moveToFirst()) {
 						float vipPrice = Float.parseFloat(vipGoodsCursor
 								.getString(vipGoodsCursor
@@ -342,18 +339,15 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						if (vipPrice < spPrice) {
 							item.setfNormalPrice(vipPrice);
 							item.setPayMoney(vipPrice * item.getAmount());
-							
 							vipSum += (vipPrice * item.getAmount());
 						}
 					} else {
 						item.setfNormalPrice(spPrice);
 						item.setPayMoney(spPrice * item.getAmount());
 					}
-
 					spSum += (spPrice * item.getAmount());// 使用 特殊价格
-					// vip 价格使用 特价价格
+					//   vip   价格使用 特价价格
 					totalSum += (spPrice * item.getAmount());
-					
 				} else if (vipGoodsCursor.moveToFirst()) {
 					float vipPrice = Float.parseFloat(vipGoodsCursor
 							.getString(vipGoodsCursor
@@ -361,21 +355,15 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 					if (vipInput) {// 当前 为vip用户 更新 ui
 						item.setfNormalPrice(vipPrice);
 						item.setPayMoney(vipPrice * item.getAmount());
-
 						totalSum += (vipPrice * item.getAmount()); // 总价
-						
 					}else{  //当前  不是vip用户
 						totalSum += item.getPayMoney();
 					}
-					
 					vipSum += (vipPrice * item.getAmount()); // 获取 vip 商品价格
 				} else {
 					totalSum += item.getPayMoney(); // 总价 使用正常商品价格：
 				}
-
-				// accSum += item.getPayMoney(); //现价：
 				agoSum += item.getPayMoney(); // 获取 原价
-				
 				vipScore += (item.getfVipScore()*item.getAmount());
 			}
 			
@@ -383,7 +371,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			spPrice.setText(getFormatFloat(spSum + "").toString());
 			vipPrice.setText(getFormatFloat(vipSum + "").toString());
 			totalMoney.setText(getFormatFloat(totalSum + "").toString());
-			
 			priceDiscount = getFormatFloat(spSum + "").floatValue()
 					+getFormatFloat(vipSum + "").floatValue();
 		}
@@ -452,7 +439,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		
 		case R.id.ic_scan:
 			
-//			 打开扫描二维码的       数据信息：
+//			 打开扫描二维码的         数据信息：
 			Intent intent = new Intent();
 			intent.setClass(this, MipcaActivityCapture.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -588,7 +575,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			} else {
 				Toast.makeText(this, "当前无商品可结算", Toast.LENGTH_SHORT).show();
 			}
-
 			break;
 
 		case R.id.main_keysF6:// 重新打印
@@ -624,11 +610,9 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		case R.id.main_keys_others_amount:
 			// 选中一项 listitem 数据 更新数量：
 			if (clickItem) {
-
 				UpdateAmountFragment upFragment = UpdateAmountFragment
 						.getInstance();
 				upFragment.show(getSupportFragmentManager(), "upFragment");
-
 			} else {
 				Toast.makeText(this, "当前未选中任何商品项", 0).show();
 			}
@@ -762,85 +746,115 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	 * 打印   表单数据  信息
 	 */
 	private void printSellForm() {
-		// 打印 数据信息：
-		m_printer.PrintStringEx("\n华隆超市\n", 40, false, true,
+		// 打印    数据信息：
+		m_printer.PrintStringEx("\n华联生活超市\n", 38, false, false,
 				printer.PrintType.Centering);
-		m_printer.PrintLineInit(18);
-		
-		m_printer.PrintLineInit(40);
-		m_printer.PrintLineString("", 40,PrintType.Centering, true);
+		m_printer.PrintStringEx("(顾客联)\n", 30, false, false,
+				printer.PrintType.Centering);
 		m_printer.PrintLineEnd();
 		
-		m_printer.PrintLineInit(15);
-		m_printer.PrintLineString("欢迎购物", 16,PrintType.Left, true);
+		m_printer.PrintLineInit(20);m_printer.PrintLineString("", 10,PrintType.Centering, true);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(24);
+		m_printer.PrintLineString("商品名/编码", 24, PrintType.Left, false);
+		m_printer.PrintLineString("    单价   *数量",  24, PrintType.Centering, false);
+		m_printer.PrintLineString("小计    ", 24, PrintType.Right, false);
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(18);
-		m_printer.PrintLineString(
-				"~~~~~~~~~~~~~~~~~~~~交易~~~~~~~~~~~~~~~~~~~~", 18,
+		m_printer.PrintLineString("-------------------------------------------------", 18,
 				PrintType.Centering, true);
 		m_printer.PrintLineEnd();
 		
+		int i=0;
+		for (Goods goods : list) {
+			i++;
+			m_printer.PrintLineInit(22);
+			m_printer.PrintLineString(i+","+goods.getcGoodsName(),22,
+					printer.PrintType.Left,false);
+			m_printer.PrintLineEnd();
+			
+			m_printer.PrintLineInit(22);
+			m_printer.PrintLineString("  "+goods.getcBarcode(),22, PrintType.Left, false);
+			m_printer.PrintLineString(goods.getfNormalPrice()+"   *"+goods.getAmount(), 22, PrintType.Centering, false);
+			m_printer.PrintLineString(goods.getPayMoney()+"  ", 22, PrintType.Right, false);
+			m_printer.PrintLineEnd();
+		}
 		m_printer.PrintLineInit(18);
-		m_printer.PrintLineString("", 18,PrintType.Centering, true);
+		m_printer.PrintLineString("-------------------------------------------------", 18,
+				PrintType.Centering, true);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(22);
+		m_printer.PrintLineString("应收："+totalMoney.getText().toString(), 22,PrintType.Left, false);
+		m_printer.PrintLineString("优惠："+priceDiscount, 22,PrintType.Centering, false);
+		m_printer.PrintLineString("实收："+ "200", 22,PrintType.Right, false);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(18);
+		m_printer.PrintLineString("-------------------------------------------------", 18,
+				PrintType.Centering, true);
 		m_printer.PrintLineEnd();
 
 		m_printer.PrintLineInit(22);
-		m_printer.PrintLineString("商品名", 22, PrintType.Left,true);
-		m_printer.PrintLineString("数量         价格 ", 22, PrintType.Centering,true);
-		m_printer.PrintLineString("小计 ", 22, PrintType.Right,true);
+		m_printer.PrintLineString("商品数量:"+ i , 22,PrintType.Left,false);
 		m_printer.PrintLineEnd();
-		
-		m_printer.PrintLineInit(10);m_printer.PrintLineString("", 10,PrintType.Centering, true);
+
+		m_printer.PrintLineInit(22);
+		m_printer.PrintLineString("金额分类：正价￥"+totalMoney.getText().toString().trim()
+				+ "    特价："+spPrice.getText().toString().trim(),
+				22,PrintType.Left,false);
 		m_printer.PrintLineEnd();
-		
-		for (Goods goods : list) {
-			
-			m_printer.PrintLineInit(20);
-			m_printer.PrintLineString(goods.getcGoodsName(), 20, PrintType.Left,
-					true);
-			m_printer.PrintLineEnd();
-			
-			m_printer.PrintLineInit(20);
-			m_printer.PrintLineString(
-					goods.getAmount() + goods.getcUnit() + "   "
-							+ goods.getfNormalPrice() + "元/"
-							+ goods.getcUnit() + "  "
-							+ goods.getPayMoney() + "元", 20,
-					PrintType.Right, true);
-			m_printer.PrintLineEnd();
-		}
 		
 		m_printer.PrintLineInit(18);
-		m_printer.PrintLineString(
-				"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", 18,
+		m_printer.PrintLineString("------------------------------------------------", 18,
+				PrintType.Centering, true);
+		m_printer.PrintLineEnd();
+
+		m_printer.PrintLineInit(22);
+		m_printer.PrintLineString("No: " + sellSheetNo,22,PrintType.Left,false);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(15);
+		m_printer.PrintLineString("", 15,PrintType.Centering, true);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(22);
+		m_printer.PrintLineString("收银员:" + user.getUser(), 22,	printer.PrintType.Left,false);
+		m_printer.PrintLineString(TimeUtils.getSystemNowTime("yyyy-MM-dd   hh:mm:ss"), 
+				15,printer.PrintType.Right,false);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(22);
+		m_printer.PrintLineString("交款方式: " , 22,printer.PrintType.Left,false);
+		m_printer.PrintLineString("收款    找零 ", 22,printer.PrintType.Centering,false);
+		m_printer.PrintLineString("实收:200   ",22,printer.PrintType.Right,false);
+		m_printer.PrintLineEnd();
+		
+		m_printer.PrintLineInit(18);
+		m_printer.PrintLineString("-------------------------------------------------", 18,
 				PrintType.Centering, true);
 		m_printer.PrintLineEnd();
 		
-		m_printer.PrintLineInit(10);m_printer.PrintLineString("", 10,PrintType.Centering, true);
+		m_printer.PrintLineInit(22);
+		m_printer.PrintLineString("人民币" , 22,printer.PrintType.Left,false);
+		m_printer.PrintLineString("100" + "    " + "98.5", 24,PrintType.Centering,false);
+		m_printer.PrintLineString(totalMoney.getText().toString().trim(),
+				24,PrintType.Right,false);
 		m_printer.PrintLineEnd();
 		
-		m_printer.PrintLineInit(22);
-		m_printer.PrintLineString("优惠："+priceDiscount + "元", 22,
-				PrintType.Left, true);
-		m_printer.PrintLineString("应付："+(priceDiscount+ getFormatFloat(totalMoney.getText().toString()).floatValue()) + "元", 20,
+		m_printer.PrintLineInit(18);
+		m_printer.PrintLineString("-----------------------------------------------", 18,
 				PrintType.Centering, true);
-		m_printer.PrintLineString("小计："+totalMoney.getText().toString() + "元", 20,
-				PrintType.Right, true);
-		m_printer.PrintLineEnd();
-		
-		m_printer.PrintLineInit(10);m_printer.PrintLineString("", 10,PrintType.Centering, true);
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(22);
-		m_printer.PrintLineString("售货员："+ user.getName(), 22,PrintType.Right,true);
-		m_printer.PrintLineEnd();
-		
-		m_printer.PrintLineInit(10);m_printer.PrintLineString("", 10,PrintType.Centering, true);
+		m_printer.PrintLineString("凭此票30天内换取发票" , 22,PrintType.Left,false);
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(22);
-		m_printer.PrintLineString("商品单号："	+ sellSheetNo, 22,PrintType.Right, true);
+		m_printer.PrintLineString("服务台总联系电话:18813882312" ,22,PrintType.Left,false);
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(100);
@@ -1096,49 +1110,46 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			//根据客退单号      查询商品信息：
 			goodsDataDb = goodsDataHelper.getReadableDatabase();
 			Cursor cursor  = goodsDataDb.query("t_"+Content.TABLE_SELL_FORM,
-					new String[]{"cBarCode","sellAmount"}, " cSaleSheetNo='"+result+"'", 
+					new String[]{"*"}, " cSaleSheetNo='"+result+"'", 
 					null, null, null, null);
 			
 			if(cursor.moveToFirst()){
-				
 				list.clear();
-				
 				for(cursor.moveToFirst();!cursor.isAfterLast();cursor.moveToNext()){
-					System.out.println(cursor.getString(cursor.getColumnIndex("cBarCode")));
-//					Goods good = OperationDbTableUtils.goodsCursorToEntity(cursor);
-//					list.add(good);
+					String cBarcode = cursor.getString(cursor.getColumnIndex("cBarCode"));
+					Cursor cur = OperationDbTableUtils.selectDataFromLocal(
+							cBarcode,goodsDataHelper);
+					Goods goo = OperationDbTableUtils.goodsCursorToEntity(cur);
+					Goods good = OperationDbTableUtils.sellGoodsToGoodsEntity(cursor,goo);
+					list.add(good);
 				}
+				goodsDataDb = goodsDataHelper.getWritableDatabase();
+				goodsDataDb.delete("t_"+Content.TABLE_SELL_FORM,
+						" cSaleSheetNo = '"+ result +"'", null);
+				//TODO 发送至  服务器
+				
 			}else{
 				Toast.makeText(this, "当前单号不存在", 1).show();
 			}
+			
 			adapter.notifyDataSetChanged();
 			break;
 
 		case Configs.VIP_FRAGMENT_QUHORITY: // Vip 根据vip卡号查询 得到 会员信息的VipFragment
-											// 回调方法：
-			// 处理信息
 			JSONObject object = JSON.parseObject(result);
 			JSONArray array = object.getJSONArray("data");
-			
-			//获取  当前  vip卡号  和   vip的  积分：
 			JSONObject obj = array.getJSONObject(0);
-			
 			cVipNo = obj.getString("cVipno");
 			fCurValue = obj.getFloatValue("fCurValue");
-
 			vipInput = true; // 记录当前 消费者 为 VIP用户
 			adapter.notifyDataSetChanged();
-			
 			break;
 
 		case Configs.GET_CALCULATE_WAY_AUTHORITY: // 获得到 结算方式 信息 获取结算方式进行处理：
-
 			// 输出  结算方式 ：
 			if (payWaylist.get(Integer.parseInt(result)).equals("人民币")) {
-
 				float payMoney = Float.parseFloat(totalMoney.getText()
 						.toString().trim());
-				// 弹出     支付对话框：
 				PayBalanceFragmentDialog fragment = PayBalanceFragmentDialog
 						.getInstance(payMoney+"-"+"人民币");
 				fragment.show(getSupportFragmentManager(), "payBalance");
@@ -1153,7 +1164,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivityForResult(intent, Configs.SCANNIN_ALI_REQUEST_CODE);
 			}
- 
 			break;
 
 		case Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY:
@@ -1161,7 +1171,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			String[] payStrs = result.split("-");//获取支付方式 
 			goodsDataDb = goodsDataHelper.getWritableDatabase();
 			
-			updateSaleSheetNo();  //更新销售数量和     获取单号
+			updateSaleSheetNo();  //更新  销售数量和     获取单号
 			
 			for(Goods goods : list){
 				OperationDbTableUtils.sellGoodsInsertTable(goodsDataDb,payStrs, 
@@ -1180,7 +1190,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			
 			printSellForm();//  打印售货单
 			
-//			将当前销售过的     商品信息发送到    服务器：
+//			TODO:将当前销售过的     商品信息发送到    服务器：  
 			
 			break;
 
@@ -1190,13 +1200,13 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	}
 
 	private void updateSaleSheetNo() {
-		//获取当天已经    销售数量的信息  :  
+		//获取当天已经    销售数量的信息 :  
 		sellAmount = sp.getString(dayDate, 0+"");  //获取当天的销售数量信息
 		
-		//获取当天销售数量      将销售数量加1
+		//获取      当天销售数量       将销售数量加1
 		int sellAm =  Integer.parseInt(sellAmount)+1;
-		Editor ed = sp.edit();  //保存当前销售数量
-		ed.putString(dayDate, sellAm+"");//保存    销售数量
+		Editor ed = sp.edit();  //保存    当前销售数量
+		ed.putString(dayDate, sellAm+"");//保存     销售数量
 		ed.commit();
 
 		sellSheetNo = sp.getString(Configs.POS_ID, "01") + 

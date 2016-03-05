@@ -521,7 +521,7 @@ public class printer {
 		return ret.toUpperCase();
 	}
 
-	public native int Open();
+	static public native int Open();
 
 	static public native int Close();
 
