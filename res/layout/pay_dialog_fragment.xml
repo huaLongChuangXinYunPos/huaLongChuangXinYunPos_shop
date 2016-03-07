@@ -3,6 +3,7 @@
     android:layout_width="match_parent"  
     android:layout_height="wrap_content"  
     android:padding="2dp"
+    android:background="@color/loginbg"
     android:orientation="vertical" >  
           
     <LinearLayout  
@@ -18,10 +19,12 @@
             android:background="@drawable/pay_title"  
             />  
         <TextView   
+            android:id="@+id/pay_fragment_money"
             android:layout_width="wrap_content"  
             android:layout_height="wrap_content"  
-            android:text="选择支付方式"  
-            android:paddingLeft="10dp"  
+            android:text="0.00"  
+            android:textSize="18dp"
+            android:paddingLeft="5dp"  
             android:textColor="@color/red"  
             android:layout_gravity="center"  
             />  

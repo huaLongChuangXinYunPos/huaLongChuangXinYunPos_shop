@@ -65,6 +65,11 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		 */
 		new VolleyUtils(this).getVolleyDataInfo(String.format(Configs.SERVER_BASE_URL+Configs.GET_POS_Id,CombinedID),
 				this, GET_POS_ID);
+		
+		/**
+		 * 访问     数据或去信息：
+		 */
+		
 	}
 
 	private void initSellTableData() {

@@ -4,6 +4,6 @@
     <item android:state_pressed="true"
         android:drawable="@color/highBlue"></item>
     
-    <item android:drawable="@color/lowGray"/>
+    <item android:drawable="@color/loginbg"/>
 
 </selector>

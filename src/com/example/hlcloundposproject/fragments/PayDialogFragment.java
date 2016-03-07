@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.TextView;
 
 /**
  * 自定义  dialog警告框   弹出后  用于用户选择需要  的支付方式：
@@ -40,6 +41,9 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
 	
 	private ArrayList<PayWayMap> payWays;
 	
+	@ViewInject(R.id.pay_fragment_money)
+	private TextView payMon;
+	
 	/*
 	 * 使用 onCreateView()
 	 */
@@ -56,6 +60,7 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
         
         list = getArguments().getStringArrayList("list");
         payWays = new ArrayList<PayWayMap>();
+        payMon.setText("确认付款:"+getArguments().getString("payMoney")+"元");
         
         initPayWays();
         
@@ -119,11 +124,12 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
 		}
 	}
 
-	public static PayDialogFragment getInstance(ArrayList<String> list) {
+	public static PayDialogFragment getInstance(ArrayList<String> list,String payMoney) {
 
 			dialog = new PayDialogFragment();
 			Bundle bundle = new Bundle();
 			bundle.putStringArrayList("list", list);
+			bundle.putString("payMoney",payMoney);
 			dialog.setArguments(bundle);
 		
 		return dialog;

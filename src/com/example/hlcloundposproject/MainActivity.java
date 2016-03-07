@@ -211,8 +211,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	
 	printer m_printer = new printer();// 创建 打印机类
 	private Handler handler = new MainHandler();// 接受打印机 回传回来的数据
-	private String sellAmount;
-	private String dayDate;
+	private static String sellAmount;
+	private static String dayDate;
 
 	private class MainHandler extends Handler {
 		@Override
@@ -382,7 +382,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		public void onInvalidated() {
 		}
 	};
-	
+	private String jsType;
+
 	public BigDecimal getFormatFloat(String floatNum){
 		BigDecimal bd = new BigDecimal(floatNum);
 		bd = bd.setScale(2,BigDecimal.ROUND_HALF_UP);  
@@ -562,7 +563,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 					}
 					// 结算 页面：
 					PayDialogFragment editNameDialog = PayDialogFragment
-							.getInstance(payWaylist);
+							.getInstance(payWaylist,totalMoney.getText().toString().trim());
 					editNameDialog.show(getSupportFragmentManager(),
 							"PayDialog");
 				} else {
@@ -742,10 +743,15 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		}
 	}
 	
+	private static String jsWay = "RMB";//记录收款方式：
+	private static String consumePayMoney = "0";//记录    收款金额(客户支付的总金额)
+	private static String overPlus = "0";//记录    找零金额
+	
 	/**
 	 * 打印   表单数据  信息
 	 */
 	private void printSellForm() {
+		Toast.makeText(this, "正在打印售货单,请稍等...", 1).show();
 		// 打印    数据信息：
 		m_printer.PrintStringEx("\n华联生活超市\n", 38, false, false,
 				printer.PrintType.Centering);
@@ -758,7 +764,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		
 		m_printer.PrintLineInit(24);
 		m_printer.PrintLineString("商品名/编码", 24, PrintType.Left, false);
-		m_printer.PrintLineString("    单价   *数量",  24, PrintType.Centering, false);
+		m_printer.PrintLineString("  单价   *数量",  24, PrintType.Centering, false);
 		m_printer.PrintLineString("小计    ", 24, PrintType.Right, false);
 		m_printer.PrintLineEnd();
 		
@@ -803,7 +809,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 
 		m_printer.PrintLineInit(22);
 		m_printer.PrintLineString("金额分类：正价￥"+totalMoney.getText().toString().trim()
-				+ "    特价："+spPrice.getText().toString().trim(),
+				+ "    特价："+ spPrice.getText().toString().trim(),
 				22,PrintType.Left,false);
 		m_printer.PrintLineEnd();
 		
@@ -838,14 +844,14 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(22);
-		m_printer.PrintLineString("人民币" , 22,printer.PrintType.Left,false);
-		m_printer.PrintLineString("100" + "    " + "98.5", 24,PrintType.Centering,false);
+		m_printer.PrintLineString(jsWay, 22,printer.PrintType.Left,false);
+		m_printer.PrintLineString(consumePayMoney + "    " + overPlus, 24,PrintType.Centering,false);
 		m_printer.PrintLineString(totalMoney.getText().toString().trim(),
 				24,PrintType.Right,false);
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(18);
-		m_printer.PrintLineString("-----------------------------------------------", 18,
+		m_printer.PrintLineString("-------------------------------------------------", 18,
 				PrintType.Centering, true);
 		m_printer.PrintLineEnd();
 		
@@ -1167,9 +1173,13 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			break;
 
 		case Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY:
-			// 结算结果    的 fragment的 回调            并记录销售情况       清空list中数据
+			// 结算结果       的 fragment的       回调            并记录销售情况       清空list中数据
 			String[] payStrs = result.split("-");//获取支付方式 
 			goodsDataDb = goodsDataHelper.getWritableDatabase();
+			
+			jsWay = "RMB";
+			consumePayMoney = payStrs[1]; //记录  用户支付总金额
+			overPlus = payStrs[2]; //记录用户   应该找零的金额
 			
 			updateSaleSheetNo();  //更新  销售数量和     获取单号
 			
@@ -1185,8 +1195,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						String.format(Configs.SERVER_BASE_URL+Configs.UPDATE_VIP_SCORE,cVipNo,vipScore+fCurValue+""),
 						this,UPDATE_VIP_SCRORE_AUTHORITY);
 			}
-			
-			Toast.makeText(this, "结算成功，正在打印售货单...", 1).show();
 			
 			printSellForm();//  打印售货单
 			
@@ -1297,7 +1305,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				}
 				// 结算 页面：
 				PayDialogFragment editNameDialog = PayDialogFragment
-						.getInstance(payWaylist);
+						.getInstance(payWaylist,totalMoney.getText().toString().trim());
 				editNameDialog.show(getSupportFragmentManager(), "PayDialog");
 			} else {
 				// 获取失败：
@@ -1438,6 +1446,10 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						testStr.put("sign", sign);  //最后将    摘要信息  跟在   参数后面
 						
 						toServer(testStr);
+						
+						jsWay = "支付宝";
+						consumePayMoney = totalMoney.getText().toString().trim();
+						overPlus = "0.00";
 					}
 						break;
 								    	
@@ -1475,6 +1487,10 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						testStr.put("sign", sign);  //最后将    摘要信息  跟在   参数后面
 						
 						toServer(testStr);
+						
+						jsWay = "微信";
+						consumePayMoney = totalMoney.getText().toString().trim();
+						overPlus = "0.00";
 					}
 					break;
 						
