@@ -153,6 +153,11 @@ public final class Configs {
 	public static final int SCANNIN_ALI_REQUEST_CODE = 13;//支付宝扫描返回码
 	
 	public static final int SCANNIN_WE_CHAT_REQUEST_CODE = 30; //微信扫描返回码
+	
+	/**
+	 * 结算  完毕将数据发送至服务器：
+	 */
+	public static final String SELLED_DATA_TO_SERVER = "http://192.168.3.199:1234/AppPosServer.asmx/RetPosDetail";
 
 	
 }

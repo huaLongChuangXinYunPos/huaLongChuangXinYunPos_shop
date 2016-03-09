@@ -4,10 +4,12 @@ package com.example.hlcloundposproject;
 import hardware.print.printer;
 import hardware.print.printer.PrintType;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +37,7 @@ import com.example.hlcloundposproject.tasks.GetGoodsInfoAsyncTask;
 import com.example.hlcloundposproject.tasks.TaskCallBack;
 import com.example.hlcloundposproject.tasks.TaskResult;
 import com.example.hlcloundposproject.utils.FastJsonUtils;
+import com.example.hlcloundposproject.utils.HttpTools;
 import com.example.hlcloundposproject.utils.MD5Util;
 import com.example.hlcloundposproject.utils.MapUtils;
 import com.example.hlcloundposproject.utils.MyProgressDialog;
@@ -53,11 +56,13 @@ import com.mining.app.zxing.MipcaActivityCapture;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.print.PrintAttributes;
 import android.provider.SyncStateContract.Constants;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -243,11 +248,19 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				break;
 			}
 			
-			case SCAN_PAY_THREAD_IS_OK: { 
+			case SCAN_PAY_THREAD_IS_OK: { //扫码支付成功
+				selledToServer(sellSheetNo);
+				
+				//像服务器  发送数据  并更新本地数据信息：
 				MyProgressDialog.stopProgress();
-				Toast.makeText(MainActivity.this, "支付成功", 1).show();
+				Toast.makeText(MainActivity.this, "支付成功,打印销售单", 1).show();
 				printSellForm();
 				break;
+			}
+			
+			case SCAN_PAY_THREAD_IS_FAIL:{  //扫码支付失败
+				MyProgressDialog.stopProgress();
+				Toast.makeText(MainActivity.this, "支付失败,请判断当前网络", 1).show();
 			}
 			
 			default:
@@ -899,6 +912,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 							if (status == 1) {// 有数据
 								new Thread() {
 									public void run() {
+										
+										Looper.prepare();
 
 										ArrayList<Goods> gList = (ArrayList<Goods>) JSON
 												.parseArray(
@@ -1132,7 +1147,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				goodsDataDb = goodsDataHelper.getWritableDatabase();
 				goodsDataDb.delete("t_"+Content.TABLE_SELL_FORM,
 						" cSaleSheetNo = '"+ result +"'", null);
-				//TODO 发送至  服务器
+				
+				//TODO  发送至  服务器
 				
 			}else{
 				Toast.makeText(this, "当前单号不存在", 1).show();
@@ -1177,11 +1193,10 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			String[] payStrs = result.split("-");//获取支付方式 
 			goodsDataDb = goodsDataHelper.getWritableDatabase();
 			
-			jsWay = "RMB";
+			jsWay = "人民币";
 			consumePayMoney = payStrs[1]; //记录  用户支付总金额
 			overPlus = payStrs[2]; //记录用户   应该找零的金额
-			
-			updateSaleSheetNo();  //更新  销售数量和     获取单号
+			updateSaleSheetNo();  //更新   销售数量和     获取单号
 			
 			for(Goods goods : list){
 				OperationDbTableUtils.sellGoodsInsertTable(goodsDataDb,payStrs, 
@@ -1195,16 +1210,86 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						String.format(Configs.SERVER_BASE_URL+Configs.UPDATE_VIP_SCORE,cVipNo,vipScore+fCurValue+""),
 						this,UPDATE_VIP_SCRORE_AUTHORITY);
 			}
+
+			//根据销售单号   将当前已售商品传送至服务器：    并  修改当前单号的isUp 为1
+			selledToServer(sellSheetNo);
 			
 			printSellForm();//  打印售货单
-			
-//			TODO:将当前销售过的     商品信息发送到    服务器：  
-			
 			break;
 
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * 将销售过得   商品信息  发送至服务器    根据当前单号   获取商品信息
+	 */
+	private void selledToServer(final String saleSheetNo) {
+		//遍历当前已销售商品信息
+		goodsDataDb = goodsDataHelper.getReadableDatabase();
+		Cursor cursor  = goodsDataDb.query("t_"+Content.TABLE_SELL_FORM,
+				new String[]{"*"}, " cSaleSheetNo='"+saleSheetNo+"'", 
+				null, null, null, null);
+
+		//遍历数据
+		ArrayList<String> jsonList = new ArrayList<String>(); 
+		int i=0;
+		while(cursor.moveToNext()){
+			i++;
+			JSONObject obj = new JSONObject();
+			obj.put("id", i+"");  // "id": 1,
+			obj.put("posId", sp.getString(Configs.POS_ID, "01")); //"posId": "01",
+			obj.put("jsType", jsWay); // "jsWay": "支付宝",  "人民币"
+
+			obj.put("cGoodsNo", cursor.getString(cursor.getColumnIndex("cGoodsNo"))); //"cGoodsNo": "002",
+			obj.put("cBarCode", cursor.getString(cursor.getColumnIndex("cBarCode")));//"cBarCode": "020323232323",
+			obj.put("sellAmount", cursor.getString(cursor.getColumnIndex("sellAmount")));//"sellAmount": "2",
+			obj.put("fNormalPrice", cursor.getString(cursor.getColumnIndex("fNormalPrice")));// "fNormalPrice": "3.0",
+			obj.put("goodsMoney", cursor.getString(cursor.getColumnIndex("goodsMoney")));//  "goodsMoney": "0.6",
+			obj.put("shouldMoney", cursor.getString(cursor.getColumnIndex("shouldMoney")));//   "shouleMoney": "1.5",
+			obj.put("payMoney", cursor.getString(cursor.getColumnIndex("payMoney")));// "payMoney": "100",
+			obj.put("overPlus", cursor.getString(cursor.getColumnIndex("overPlus")));// "overPlus": "98.5",
+			obj.put("executePrice", cursor.getString(cursor.getColumnIndex("executePrice")));// "executePrice": "0.2",
+			
+			obj.put("isSpeG",cursor.getString(cursor.getColumnIndex("isSpeG")));   //--- "isSpecG": 0,
+			obj.put("spPrice", cursor.getString(cursor.getColumnIndex("spPrice")));//---	“spPrice”:””,
+			
+			obj.put("isVip", cursor.getString(cursor.getColumnIndex("isVip")));  //  "isVip": 0,
+			obj.put("vipPrice", cursor.getString(cursor.getColumnIndex("vipPrice")));//"vipPrice": "0.0000",
+			obj.put("vipScore", cursor.getString(cursor.getColumnIndex("vipScore")));//----- "vipScore": "0.0000",
+			obj.put("vipCardNo", cursor.getString(cursor.getColumnIndex("vipCardNo")));//"vipCardNo": "",
+			obj.put("cOperationName", cursor.getString(cursor.getColumnIndex("cOperationName")));// "cOperationName": "陈店",
+			obj.put("exactlyTime", cursor.getString(cursor.getColumnIndex("exactlyTime")));//   "exectlyTime": "2016-03-03/14:31:53",
+			
+			obj.put("cOperationNo", user.getUser());//"cOperationNo": "232312123123",
+			obj.put("cSaleSheetNo", saleSheetNo);//“cSaleSheetNo”:”231212121212”
+				
+			jsonList.add(JSON.toJSONString(obj));
+		}
+			final HashMap<String,String> map = new HashMap<String,String>();
+			map.put("name", jsonList.toString());
+			System.out.println(jsonList.toString());
+			//将数据  发送至服务器：
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					String result = HttpTools.doPost(Configs.SELLED_DATA_TO_SERVER,map);
+					if(result!=null){
+						JSONObject obj = JSON.parseObject(result);
+							
+						String status = obj.getString("resultStatus");
+						if(status.equals("1")){
+							ContentValues values = new ContentValues(1);
+							values.put("isUp", 1);
+							//上传成功     修改   isUp为 1
+							goodsDataDb.update("t_"+Content.TABLE_SELL_FORM,
+									values, " cSaleSheetNo = ?", 
+									new String[]{saleSheetNo});
+						}
+					}
+				}
+			}).start();
 	}
 
 	private void updateSaleSheetNo() {
@@ -1411,7 +1496,11 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 					case Configs.SCANNIN_ALI_REQUEST_CODE:{
 						
 						MyProgressDialog.showProgress(this, "请稍后", "正在付款...");
+						
 						updateSaleSheetNo();  //更新销售数量和     获取单号
+						jsWay = "支付宝";
+						consumePayMoney = totalMoney.getText().toString().trim();
+						overPlus = "0.00";
 						
 						Bundle bundle = data.getExtras();
 						//显示扫描到的内容
@@ -1428,7 +1517,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						testStr.put("subject", "消费");  //消费主题
 						testStr.put("store_id", "001");
 						testStr.put("undiscountable_amount", "");
-						testStr.put("total_fee", totalMoney.getText().toString().trim());
+						testStr.put("total_fee", "0.01");//totalMoney.getText().toString().trim()
 						testStr.put("out_trade_no", sellSheetNo);  //商户流水号
 						
 						testStr.put("timestamp", timestamp);
@@ -1445,11 +1534,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						
 						testStr.put("sign", sign);  //最后将    摘要信息  跟在   参数后面
 						
-						toServer(testStr);
-						
-						jsWay = "支付宝";
-						consumePayMoney = totalMoney.getText().toString().trim();
-						overPlus = "0.00";
+						toServer(testStr); //开始支付
 					}
 						break;
 								    	
@@ -1458,6 +1543,9 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						MyProgressDialog.showProgress(this, "请稍后", "正在付款...");
 						
 						updateSaleSheetNo();  //更新销售数量和     获取单号
+						jsWay = "微信";
+						consumePayMoney = totalMoney.getText().toString().trim();
+						overPlus = "0.00";
 						
 						Bundle bundle = data.getExtras();
 						//显示扫描到的内容
@@ -1469,7 +1557,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						testStr.put("service", "wx_pay");
 						testStr.put("terminal_no", sp.getString(Configs.POS_ID, "01"));  // 本机终端号
 						testStr.put("subject", "消费");  //消费主题
-						testStr.put("total_fee", totalMoney.getText().toString().trim());
+						testStr.put("total_fee", "0.01");//totalMoney.getText().toString().trim()
 						testStr.put("out_trade_no", sellSheetNo);  //商户流水号
 						
 						testStr.put("timestamp", timestamp);
@@ -1486,11 +1574,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						String sign = MD5Util.GetMD5Code(prestr+ Content.PRIVATE_KEY);
 						testStr.put("sign", sign);  //最后将    摘要信息  跟在   参数后面
 						
-						toServer(testStr);
-						
-						jsWay = "微信";
-						consumePayMoney = totalMoney.getText().toString().trim();
-						overPlus = "0.00";
+						toServer(testStr);//开始支付
 					}
 					break;
 						
@@ -1522,21 +1606,34 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	 */
 	private void toServer(final JSONObject testStr) {
 		new Thread(new Runnable() {
+			
 			@Override
 			public void run() {
+				
+				Looper.prepare();  //调用   循环对象   准备接受消息
 				
 				String resultStr = SocketToNet.socketTcpRequset(Content.SERVER_IP, Content.SERVER_PORT,
 						testStr);
 				
-				//判断支付结果：
-				System.out.println(resultStr);
-				
-				//向  main 发送更新ui:
-				Message msg = Message.obtain(); 
-				msg.what = SCAN_PAY_THREAD_IS_OK;
-				handler.sendMessage(msg);
+				if(resultStr!=null&&!resultStr.equals("")){
+						JSONObject objj = JSON.parseObject(resultStr);
+						if(objj.getString("result_code").equals("SUCCESS")){
+							
+							//支付成功    向    main 发送信息    更新ui:
+							Message msg = Message.obtain(); 
+							msg.what = SCAN_PAY_THREAD_IS_OK;
+							handler.sendMessage(msg);
+						}
+				}else{
+					
+					//支付成功    向    main 发送信息    更新ui:
+					Message msg = Message.obtain(); 
+					msg.what = SCAN_PAY_THREAD_IS_FAIL;
+					handler.sendMessage(msg);
+				}
 			}
 		}).start();		
 	}
 	
+	private static final int SCAN_PAY_THREAD_IS_FAIL = 19;//扫码支付失败
 }

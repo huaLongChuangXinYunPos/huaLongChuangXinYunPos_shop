@@ -1,6 +1,7 @@
 package com.example.hlcloundposproject.utils;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -95,54 +96,69 @@ public final class HttpTools {
 	 * doPost方法：
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void doPost(String url,HashMap<String,String> map) throws UnsupportedEncodingException{
+	public static String doPost(String url,HashMap<String,String> map){
+		
+		InputStream in = null;
+		ByteArrayOutputStream bos = null;
 		
 		if(url!=null){
 			StringBuilder sb = new StringBuilder();
 			
-			for(Map.Entry<String,String> en : map.entrySet()){
-				sb.append(en.getKey())
-						.append("=")
-						.append(URLEncoder.encode(en.getValue(),"utf-8"));
-			}
-			
-			HttpURLConnection connection = null;
-			
 			try {
+				
+				for(Map.Entry<String,String> en : map.entrySet()){
+						sb.append(en.getKey())
+								.append("=")
+								.append(URLEncoder.encode(en.getValue(),"utf-8"));
+				}
+				HttpURLConnection connection = null;
+			
 				URL u = new URL(url);
 				
 				connection = (HttpURLConnection) u.openConnection();
-				
+				connection.setReadTimeout(READ_TIMEOUT);
+				connection.setConnectTimeout(CONNECTION_TIMEOUT);
 				//基本设置：
 				connection.setRequestMethod("POST");
-				connection.setConnectTimeout(CONNECTION_TIMEOUT);
+				//设置Accept头信息    
+				connection.setRequestProperty("Accept", "appliction/*,text/*,image/*,*/*");
+				
 				connection.setDoInput(true);
 				connection.setDoOutput(true);
-				
-				//设置 提交的数据的类型：
-				connection.setRequestProperty("Content-Type", 
-						"application/x-www-form-urlencoded");
 				connection.connect();
 				//设置提交的数据：
 				byte[] b = sb.toString().getBytes();
 				
 				//提交数据   向服务器  写入数据
 				OutputStream outputStream = connection.getOutputStream();
-				outputStream.write(b,0,b.length);
+				outputStream.write(b);
 				outputStream.close();
 				
-				in = null;
-				
-				if(connection.getResponseCode()==200){
-					in=connection.getInputStream();
+				bos = new ByteArrayOutputStream();
+
+				in = connection.getInputStream();
+				//读取返回数据：
+				byte[] buffer = new byte[1024];
+				int len = 0;
+				while((len=in.read(buffer))!=-1){
+					bos.write(buffer, 0, len);
 				}
+				//注意   部分必须要进行    置空操作  减少内存 溢出
+				buffer = null;
+				byte[] ret = bos.toByteArray();
+				bos.close();
 				
+				return new String(ret,"utf-8");
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			} 
 		}
+		return null;
 	}
 
 }

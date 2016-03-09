@@ -122,7 +122,7 @@ public final class Content {
 	 * 创建   销售情况的销售表：
 	 */
 	public static final String CREATE_TABLE_SELL_FORM_ENTITY = "create table if not exists t_%s" +
-			"(id integer primary key autoincrement,cBarCode text,sellAmount text,fNormalPrice numeric(10,4)," +
+			"(id integer primary key autoincrement,cGoodsNo text,cBarCode text,sellAmount text,fNormalPrice numeric(10,4)," +
 			"goodsMoney numeric(10,4),shouldMoney numeric(10,4),payMoney numeric(10,4),overPlus numeric(10,4),"+
 			"executePrice numeric(10,4),isSpeG text,spPrice numeric(10,4),isVip text,vipPrice numeric(10,4),vipScore numeric(10,4)," +
 			"vipCardNo text,dSellTime text,cOperationName text,cSaleSheetNo text,isUp text,exactlyTime text)";

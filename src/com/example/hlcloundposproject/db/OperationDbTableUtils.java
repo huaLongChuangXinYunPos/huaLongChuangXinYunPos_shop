@@ -306,6 +306,8 @@ public final class OperationDbTableUtils {
 		ContentValues values = new ContentValues();
 		
 		values.put("cBarCode", goods.getcBarcode());
+		//获取   商品号：
+		values.put("cGoodsNo", goods.getcGoodsNo());
 		values.put("sellAmount", goods.getAmount());
 		values.put("fNormalPrice", goods.getfNormalPrice());
 		
@@ -337,15 +339,15 @@ public final class OperationDbTableUtils {
 		
 		values.put("isSpeG", spGoodsCursor.moveToFirst()?1:0);
 		values.put("spPrice",spGoodsCursor.moveToFirst()?spGoodsCursor
-				.getString(spGoodsCursor.getColumnIndex("fPrice_SO")) : "");//无价格
+				.getString(spGoodsCursor.getColumnIndex("fPrice_SO")) : "0.0000");//无价格
 
 		values.put("isVip", isVip ? 1:0);
 		values.put("vipPrice",vipGoodsCursor.moveToFirst()? vipGoodsCursor
-				.getString(vipGoodsCursor.getColumnIndex("fVipPrice")) : "");
+				.getString(vipGoodsCursor.getColumnIndex("fVipPrice")) : "0.0000");
 		
-		values.put("vipScore", isVip?vipScore:"");
+		values.put("vipScore", isVip?vipScore:"0.0000");
 		
-		values.put("vipCardNo", cVipNo);
+		values.put("vipCardNo", isVip?cVipNo:"0");
 		values.put("dSellTime", time);   //当前系统毫秒值
 		
 		values.put("cOperationName", user.getName());  //操作员姓名：
@@ -354,7 +356,7 @@ public final class OperationDbTableUtils {
 		
 		values.put("isUp", 0);
 		
-		values.put("exactlyTime", TimeUtils.getSystemNowTime("yyyy-MM-dd/HH:mm:ss"));
+		values.put("exactlyTime", TimeUtils.getSystemNowTime("yyyy-MM-dd HH:mm:ss"));
 		
 		goodsDataDb.insert("t_" + Content.TABLE_SELL_FORM, null, values);
 	}
