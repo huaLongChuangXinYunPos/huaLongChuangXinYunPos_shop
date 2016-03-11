@@ -13,8 +13,8 @@
     <!-- main.scan -->
     <dimen name="main_scan_edittext_height">33dp</dimen>
     
-	<dimen name="main_scan_btn_height">28dp</dimen>
-	<dimen name="main_scan_btn_width">52dp</dimen>
+	<dimen name="main_scan_btn_height">27dp</dimen>
+	<dimen name="main_scan_btn_width">50dp</dimen>
 	<dimen name="main_scan_btn_textSize">13sp</dimen>
 	<dimen name="main_sacn_btn_maigin">2dp</dimen>
 	

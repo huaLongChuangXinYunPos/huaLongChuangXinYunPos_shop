@@ -19,41 +19,37 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
-       <activity
+        android:theme="@style/AppTheme" >
+        <activity
             android:name="com.example.hlcloundposproject.activity.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.example.hlcloundposproject.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/main_label"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" 
-            android:configChanges="orientation|keyboardHidden"
-            />
-        
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name="com.example.hlcloundposproject.activity.LoginActivity"
             android:label="@string/login_lable"
-            android:windowSoftInputMode="adjustResize"
             android:launchMode="singleInstance"
-            />
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- 二維碼 -->
         <activity
@@ -63,9 +59,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
-        
-        
-        
+        <activity
+            android:name="com.example.hlcloundposproject.QueryGoodsActivity"
+            android:label="@string/title_activity_query_goods" >
+        </activity>
     </application>
 
 </manifest>

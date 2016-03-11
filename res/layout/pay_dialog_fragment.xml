@@ -10,20 +10,20 @@
         android:layout_width="match_parent"  
         android:layout_height="wrap_content"  
         android:orientation="horizontal"   
-        android:paddingLeft="4dp"
+        android:padding="3dp"
         android:layout_gravity="center">  
       
         <ImageView  
             android:layout_width="wrap_content"  
             android:layout_height="wrap_content"  
-            android:background="@drawable/pay_title"  
+            android:background="@drawable/logo"  
             />  
         <TextView   
             android:id="@+id/pay_fragment_money"
             android:layout_width="wrap_content"  
             android:layout_height="wrap_content"  
             android:text="0.00"  
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:paddingLeft="5dp"  
             android:textColor="@color/red"  
             android:layout_gravity="center"  
@@ -32,8 +32,8 @@
       
      <View   
             android:layout_width="match_parent"  
-            android:layout_height="3dip"  
-            android:background="@color/blue"/>  
+            android:layout_height="2dip"  
+            android:background="@color/highBlue"/>  
             
      <GridView 
          android:id="@+id/pay_caculate_way"

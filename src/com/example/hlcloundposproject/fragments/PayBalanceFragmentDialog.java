@@ -1,5 +1,7 @@
 package com.example.hlcloundposproject.fragments;
 
+import java.math.BigDecimal;
+
 import com.example.hlcloundposproject.Configs;
 import com.example.hlcloundposproject.R;
 import com.lidroid.xutils.ViewUtils;
@@ -11,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -65,8 +68,7 @@ public class PayBalanceFragmentDialog extends DialogFragment implements OnClickL
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		getDialog().setTitle("结算");
-
+		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);  
 		View view = inflater.inflate(R.layout.pay_balance_dialog, container,true);
 		ViewUtils.inject(this,view);
 		
@@ -81,7 +83,6 @@ public class PayBalanceFragmentDialog extends DialogFragment implements OnClickL
 
 		return view;
 	}
-
 
 	@Override
 	public void onClick(View v) {
@@ -125,15 +126,22 @@ public class PayBalanceFragmentDialog extends DialogFragment implements OnClickL
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		//数据  正在改变的  时候   修改   找零金额：
+		//数据     正在改变的     时候     修改     找零金额：
 		if(s.toString()!=null&&!s.toString().equals("")){
-
 			float inputMoney = Float.parseFloat(s.toString());
-			if(Float.parseFloat(payStrs[0]) < inputMoney){
-				overplusPay.setText((inputMoney - Float.parseFloat(payStrs[0]) )+"");
+			if((inputMoney - Float.parseFloat(payStrs[0]))>=0){
+				overplusPay.setText(getFormatFloat((inputMoney - Float.parseFloat(payStrs[0]))+"").toString());
+				btnSure.setEnabled(true);
 			}else{
-				inputPay.setError("当前金额不够");
+				inputPay.setError("当前金额输入错误");
+				btnSure.setEnabled(false);
 			}
 		}
+	}
+
+	public BigDecimal getFormatFloat(String floatNum){
+		BigDecimal bd = new BigDecimal(floatNum);
+		bd = bd.setScale(2,BigDecimal.ROUND_HALF_UP);  
+		return bd;
 	}
 }

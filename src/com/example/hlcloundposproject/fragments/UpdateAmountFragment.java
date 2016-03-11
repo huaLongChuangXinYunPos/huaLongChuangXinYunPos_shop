@@ -42,9 +42,9 @@ public class UpdateAmountFragment extends DialogFragment implements OnClickListe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		getDialog().setTitle("ÐÞ¸ÄÊýÁ¿");
+		getDialog().requestWindowFeature(STYLE_NO_TITLE);
 		
-		View view = inflater.inflate(R.layout.constumback_upamount_fragment, container,true);
+		View view = inflater.inflate(R.layout.update_amount_fragment, container,true);
 		
 		EditText ed = (EditText) view.findViewById(R.id.constume_back_fragment_inputEt);
 		

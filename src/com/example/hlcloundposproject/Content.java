@@ -123,10 +123,10 @@ public final class Content {
 	 */
 	public static final String CREATE_TABLE_SELL_FORM_ENTITY = "create table if not exists t_%s" +
 			"(id integer primary key autoincrement,cGoodsNo text,cBarCode text,sellAmount text,fNormalPrice numeric(10,4)," +
-			"goodsMoney numeric(10,4),shouldMoney numeric(10,4),payMoney numeric(10,4),overPlus numeric(10,4),"+
+			"goodsMoney numeri  c(10,4),shouldMoney numeric(10,4),payMoney numeric(10,4),overPlus numeric(10,4),"+
 			"executePrice numeric(10,4),isSpeG text,spPrice numeric(10,4),isVip text,vipPrice numeric(10,4),vipScore numeric(10,4)," +
-			"vipCardNo text,dSellTime text,cOperationName text,cSaleSheetNo text,isUp text,exactlyTime text)";
-	
+			"vipCardNo text,dSellTime text,jsType text,cOperationName text,cOperationNo text,cSaleSheetNo text,isUp text,exactlyTime text)";
+	//,
 	
 	public static final String CHAR_SET = "GBK";  //±àÂë¼¯
 	

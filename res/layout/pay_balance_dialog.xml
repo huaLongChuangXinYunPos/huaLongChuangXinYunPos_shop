@@ -5,6 +5,34 @@
     android:padding="10dp"
     android:orientation="vertical" >
     
+    <LinearLayout  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"  
+        android:orientation="horizontal"   
+        android:padding="3dp"
+        android:layout_gravity="center">  
+      
+        <ImageView  
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"  
+            android:background="@drawable/logo"  
+            />  
+        <TextView   
+            android:id="@+id/pay_fragment_money"
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"  
+            android:text="人民币结算"  
+            android:textSize="20dp"
+            android:paddingLeft="5dp"  
+            android:textColor="@color/red"  
+            android:layout_gravity="center"  
+            />  
+    </LinearLayout>
+    <View   
+            android:layout_width="match_parent"  
+            android:layout_height="3dip"  
+            android:background="@color/highBlue"/>  
+    
     <LinearLayout 
         android:layout_marginTop="10dp"
 	    android:layout_width="match_parent"
@@ -56,7 +84,7 @@
 		        android:layout_height="wrap_content"
 		        android:padding="5dp"
 		        android:textSize="18sp"
-		        android:inputType="number"
+		        android:inputType="numberDecimal"
 		        android:hint="输入支付金额"
 	        />
 	</LinearLayout>
@@ -91,31 +119,37 @@
 	        android:text="元"
 	        />
 	</LinearLayout>
-	
-    
-     <LinearLayout 
-         android:layout_marginTop="25dp"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal">
-	    
-         <Button 
-             android:id="@+id/pay_exit_btn"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:padding="10dp"
-             android:layout_weight="1"
-             android:text="取消"
-             />
-         
-         <Button 
-             android:id="@+id/pay_sure_btn"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:padding="10dp"
-             android:layout_weight="1"
-             android:text="确认"
-             />
-	</LinearLayout>
-    
+     <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="10dp"
+		        android:layout_below="@id/password"
+		        android:orientation="horizontal" >
+		
+		        <Button
+		            android:id="@+id/pay_exit_btn"
+		            android:layout_width="wrap_content"
+		            android:layout_height="40dp"
+		            android:layout_marginBottom="15dp"
+		            android:layout_marginLeft="15dp"
+		            android:layout_marginRight="5dp"
+		            android:layout_marginTop="15dp"
+		            android:layout_weight="1.0"
+		            android:background="@drawable/btn_orange_selector"
+		            android:text="取消"
+		            android:textColor="@drawable/login_btn_text_selector" />
+		        
+		        <Button
+		            android:id="@+id/pay_sure_btn"
+		            android:layout_width="wrap_content"
+		            android:layout_height="40dp"
+		            android:layout_marginBottom="15dp"
+		            android:layout_marginLeft="15dp"
+		            android:layout_marginRight="5dp"
+		            android:layout_marginTop="15dp"
+		            android:layout_weight="1.0"
+		            android:background="@drawable/btn_orange_selector"
+		            android:text="确认"
+		            android:textColor="@drawable/login_btn_text_selector" />
+		    </LinearLayout>
 </LinearLayout>

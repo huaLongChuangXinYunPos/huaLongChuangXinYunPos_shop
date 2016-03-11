@@ -32,16 +32,15 @@ import android.view.SurfaceHolder;
  * This object wraps the Camera service object and expects to be the only one talking to it. The
  * implementation encapsulates the steps needed to take preview-sized images, which are used for
  * both preview and decoding.
- *
  */
 public final class CameraManager {
 
   private static final String TAG = CameraManager.class.getSimpleName();
 
-  private static final int MIN_FRAME_WIDTH = 240;
-  private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = 480;
-  private static final int MAX_FRAME_HEIGHT = 360;
+  private static final int MIN_FRAME_WIDTH = 250;
+  private static final int MIN_FRAME_HEIGHT = 350;
+  private static final int MAX_FRAME_WIDTH = 510;
+  private static final int MAX_FRAME_HEIGHT = 380;
 
   private static CameraManager cameraManager;
 

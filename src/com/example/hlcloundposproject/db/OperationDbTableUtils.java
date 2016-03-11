@@ -273,7 +273,6 @@ public final class OperationDbTableUtils {
 		values.put("week7", vipGood.getWeek().getWeek7());
 	}
 	
-
 	public static void insertTempJsType(SQLiteDatabase tempDb, JsType jstype,
 			String tableJstypeName) {
 		//存到本地：
@@ -290,13 +289,10 @@ public final class OperationDbTableUtils {
 	}
 
 	
-	/**
-			"goodsMoney numeric(10,4),shouldMoney numeric(10,4),payMoney numeric(10,4),overPlus numeric(10,4),"+
-			isSpeG text,spPrice numeric(10,4),isVip text,vipPrice numeric(10,4),vipScore numeric(10,4)," +
-			"vipCardNo text,dSellTime text,cOperationName text,cSaleSheetNo text,isUp text,exactlyTime text)
-	 */
 	public static void sellGoodsInsertTable(SQLiteDatabase goodsDataDb,String[] payStrs, Goods goods
-			,boolean isVip,String cVipNo,String vipScore,User user,String sheetNo) {
+			,boolean isVip,String cVipNo,String vipScore,
+			User user,String sheetNo,String jsType,
+			String totalMoney,String shouldPayMoney) {
 		
 		long time = System.currentTimeMillis();
 		
@@ -304,12 +300,15 @@ public final class OperationDbTableUtils {
 		Cursor vipGoodsCursor = getVipCursor(goodsDataDb,goods);
 		
 		ContentValues values = new ContentValues();
-		
-		values.put("cBarCode", goods.getcBarcode());
 		//获取   商品号：
 		values.put("cGoodsNo", goods.getcGoodsNo());
+		values.put("cBarCode", goods.getcBarcode());
 		values.put("sellAmount", goods.getAmount());
 		values.put("fNormalPrice", goods.getfNormalPrice());
+		values.put("goodsMoney", goods.getPayMoney());  //该商品应该支付的    金额
+		values.put("shouldMoney",jsType.equals("人民币")?shouldPayMoney:totalMoney);  //总共应该支付的     金额
+		values.put("payMoney",jsType.equals("人民币")?payStrs[1]:totalMoney);  //实际支付的金额
+		values.put("overPlus",jsType.equals("人民币")?payStrs[2]:"0.00");//剩余金额：
 		
 		if(spGoodsCursor.moveToFirst()){//当前为    特价商品
 			float spPrice = Float.parseFloat(spGoodsCursor
@@ -330,12 +329,12 @@ public final class OperationDbTableUtils {
 		}else{
 			values.put("executePrice",goods.getfNormalPrice());//执行正常商品的  价格
 		}
-		
-		values.put("goodsMoney", goods.getPayMoney());  //该商品应该支付的    金额
-		
-		values.put("shouldMoney", payStrs[0]);  //总共应该支付的  金额
-		values.put("payMoney",payStrs[1]);  //实际支付的金额
-		values.put("overPlus",payStrs[2]);//剩余金额：
+		/**
+			integer primary key autoincrement,cGoodsNo text,cBarCode text,sellAmount text,fNormalPrice numeric(10,4)," +
+			"goodsMoney numeric(10,4),shouldMoney numeric(10,4),payMoney numeric(10,4),overPlus numeric(10,4),"+
+			"executePrice numeric(10,4),isSpeG text,spPrice numeric(10,4),isVip text,vipPrice numeric(10,4),vipScore numeric(10,4)," +
+			"vipCardNo text,dSellTime text,jsType text,cOperationName text,cOperationNo text,cSaleSheetNo text,isUp text,exactlyTime text)";
+		 */
 		
 		values.put("isSpeG", spGoodsCursor.moveToFirst()?1:0);
 		values.put("spPrice",spGoodsCursor.moveToFirst()?spGoodsCursor
@@ -349,13 +348,11 @@ public final class OperationDbTableUtils {
 		
 		values.put("vipCardNo", isVip?cVipNo:"0");
 		values.put("dSellTime", time);   //当前系统毫秒值
-		
+		values.put("jsType", jsType);
 		values.put("cOperationName", user.getName());  //操作员姓名：
-		
+		values.put("cOperationNo", user.getUser());//保存销售员号
 		values.put("cSaleSheetNo",sheetNo);  //商品销售单号:  02 20160226 0032
-		
 		values.put("isUp", 0);
-		
 		values.put("exactlyTime", TimeUtils.getSystemNowTime("yyyy-MM-dd HH:mm:ss"));
 		
 		goodsDataDb.insert("t_" + Content.TABLE_SELL_FORM, null, values);

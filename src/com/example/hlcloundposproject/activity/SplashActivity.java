@@ -12,6 +12,7 @@ import com.example.hlcloundposproject.entity.User;
 import com.example.hlcloundposproject.entity.VIPGoods;
 import com.example.hlcloundposproject.utils.FastJsonUtils;
 import com.example.hlcloundposproject.utils.GetDeviceId;
+import com.example.hlcloundposproject.utils.SelledToServerUtils;
 import com.example.hlcloundposproject.utils.VolleyUtils;
 import com.example.hlcloundposproject.utils.VolleyUtils.VolleyCallback;
 import com.example.hlcloundposproject.Configs;
@@ -57,7 +58,7 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		
 		new Thread(this).start();
 		
-		//查询出所有   超过二十四小时的   出售商品表单中的数据    并将已经上传到    服务器的数据删除
+		//查询出所有     超出两天的    出售商品表单中的数据    并将已经上传到    服务器的数据删除
 		initSellTableData();
 		
 		/**
@@ -66,26 +67,26 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 		new VolleyUtils(this).getVolleyDataInfo(String.format(Configs.SERVER_BASE_URL+Configs.GET_POS_Id,CombinedID),
 				this, GET_POS_ID);
 		
-		/**
-		 * 访问     数据或去信息：
-		 */
-		
 	}
 
 	private void initSellTableData() {
 		goodsDb = goodsHelper.getReadableDatabase();
-		
 		goodsDb.beginTransaction();
-		Cursor cursor = goodsDb.query("t_"+Content.TABLE_SELL_FORM, new String[]{"dSellTime","isUp"}, null,
+		Cursor cursor = goodsDb.query("t_"+Content.TABLE_SELL_FORM, new String[]{"cSaleSheetNo","dSellTime","isUp"}, null,
 				null, null, null, null);
-			
 		long currTime = System.currentTimeMillis();
 		while(cursor.moveToNext()){
-			
 			long sellTime = Long.parseLong(cursor.getString(cursor.getColumnIndex("dSellTime")));
 			String isUp = cursor.getString(cursor.getColumnIndex("isUp"));
-			if(((currTime-sellTime)/(60*60*1000)>24) && isUp.equals("1")){ //删除   当前    超过  24小时   并且已经上传到服务器的   商品数据
+			if(((currTime-sellTime)/(60*60*1000)>48) && isUp.equals("1")){ //删除   当前    超过  24小时   并且已经上传到服务器的   商品数据
 				goodsDb.delete("t_"+Content.TABLE_SELL_FORM, "dSellTime = '"+sellTime+"'", null);
+			}
+			if(isUp.equals("0")){//当前对象未发送至  服务器
+				//获取当前对象的     销售单号
+				String cSheet = cursor.getString(cursor.getColumnIndex("cSaleSheetNo"));
+				//根据销售单号   将当前未销售对象发送至  服务器
+				SelledToServerUtils.selledToServer(cSheet,goodsHelper,
+						getSharedPreferences(Configs.APP_NAME, MODE_PRIVATE));
 			}
 		}
 		goodsDb.setTransactionSuccessful();
@@ -95,7 +96,6 @@ public class SplashActivity extends Activity implements Runnable,VolleyCallback{
 	@Override
 	public void run() {
 		try {
-			
 //			获取  结算  方式：,
 			new VolleyUtils(this).getVolleyDataInfo(Configs.SERVER_BASE_URL+Configs.GET_PAY_CALCULATE_WAY,
 					SplashActivity.this,Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY);

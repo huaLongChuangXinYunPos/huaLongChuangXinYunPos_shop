@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">华隆软件</string>
+    <string name="app_name">华隆云pos</string>
     <string name="main_label">主页面</string>
-    
     <string name="action_settings">设置</string>
     <string name="title_activity_splash">扉页</string>
     <string name="login_text_logo">华隆云POS支付系统</string>
@@ -14,7 +13,6 @@
     <string name="login_hint_account">账户</string>
     <string name="login_progress_ing">正在登录...</string>
     <string name="login_forget_password">忘记密码</string>
-    
     <string name="main_keys_1">1</string>
     <string name="main_keys_2">2</string>
     <string name="main_keys_3">3</string>
@@ -50,39 +48,32 @@
     <string name="main_keys_F11">更新数据库</string>
     <string name="main_keys_F12">换班</string>
     <string name="text_scan_codebar">"扫码: "</string>
-    
     <string name="scan_text_codebar_goods_bar">"x 1"</string>
     <string name="scan_btn_sure">确认</string>
     <string name="scan_codebar_fkeys">F1..F12</string>
     <string name="title_activity_scan_code_bar">ScanCodeBarActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
-    
     <string name="title_activity_welcome">华隆云pos</string>
-    
     <string name="main_total_agoprice">原价:</string>
     <string name="main_total_currprince">原价:</string>
-     <string name="total_special_price">特价:</string>
+    <string name="total_special_price">特价:</string>
     <string name="total_vip_price">vip:</string>
     <string name="main_total_totalmoney">小计:</string>
-    <string name="main_total_nummoney">0.0</string>
-    
+    <string name="main_total_nummoney">0.00</string>
     <string name="main_goodslist_title_num">序号</string>
     <string name="main_goodslist_title_goodsname">商品名称</string>
     <string name="main_goodslist_title_cbarcode">条形码</string>
     <string name="main_goodslist_title_amount">数量</string>
     <string name="main_goodslist_title_accprice">现价</string>
     <string name="main_goodslist_title_paymoney">金额</string>
-    
     <string name="update_password_fragment_inputagopassword">请输入当前密码</string>
     <string name="update_password_fragment_inputnowpassword">你要修改的密码</string>
     <string name="update_password_fragment_inputrepassword">验证输入密码</string>
-    
     <string name="update_password_fragment_sureupdate">确定</string>
     <string name="update_password_fragment_exitupdate">取消</string>
-    
     <string name="vip_fragment_input_vipnum">请输入 vip卡号</string>
-    
     <string name="constum_back_fragment_input_sellerNum">请输入商品单号</string>
+    <string name="title_activity_query_goods">QueryGoodsActivity</string>
 
 </resources>

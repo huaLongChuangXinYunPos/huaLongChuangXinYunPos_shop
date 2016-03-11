@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/mmtitle_bg_alpha" >
+    android:background="@drawable/scanbg" >
 
     <Button
         android:id="@+id/button_back"
         android:layout_width="75.0dip"
         android:text="返回"
+        android:paddingBottom="8dp"
         android:background="@drawable/mm_title_back_btn"
         android:textColor="@android:color/white"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
         android:layout_alignBottom="@+id/button_back"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
-        android:text="二维码扫描"
+        android:text="条码扫描"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 

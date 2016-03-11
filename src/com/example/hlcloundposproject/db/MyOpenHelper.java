@@ -19,6 +19,11 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		if(name.equals(Content.GOODS_DB_NAME)){
 			/**
+			 * 创建    出售商品的      商品出售表：
+			 */
+			db.execSQL(String.format(Content.CREATE_TABLE_SELL_FORM_ENTITY, Content.TABLE_SELL_FORM));
+			
+			/**
 			 * 创建     商品基本信息表：
 			 */
 			db.execSQL(String.format(Content.CREATE_TABLE_GOODS_ENTITY, Content.TABLE_FORMNALPRICE));
@@ -34,11 +39,6 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 			 * 创建   结算类型表：
 			 */
 			db.execSQL(String.format(Content.CREATE_TEMP_JSTYPE_ENTITY,Content.TABLE_JSTYPE_NAME));
-			/**
-			 * 创建   出售商品的     商品出售表：
-			 */
-			db.execSQL(String.format(Content.CREATE_TABLE_SELL_FORM_ENTITY, Content.TABLE_SELL_FORM));
-			
 		}else if(name.equals(Content.USER_INFO_DB_NAME)){
 			/**
 			 * 创建   用户基本信息表：

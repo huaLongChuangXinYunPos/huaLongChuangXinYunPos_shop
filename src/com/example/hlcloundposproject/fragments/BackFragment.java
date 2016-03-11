@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -51,10 +52,13 @@ public class BackFragment extends DialogFragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+	   /** 
+         * 先设置     无标题样式的     对话框 
+         */  
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);  
 		
-		getDialog().setTitle("购买查询");
-		
-		View view = inflater.inflate(R.layout.constumback_upamount_fragment, container,true);
+		View view = inflater.inflate(R.layout.consume_back_fragment, container,true);
 		
 		EditText ed = (EditText) view.findViewById(R.id.constume_back_fragment_inputEt);
 		ed.setHint("请输入客退单号");

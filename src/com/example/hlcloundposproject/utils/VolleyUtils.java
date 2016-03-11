@@ -43,7 +43,6 @@ public final class VolleyUtils {
 						//回调数据：
 						JSONObject Object = JSON.parseObject(response);
 						
-						
 						if(Object.getIntValue("resultStatus")==1){
 							JSONArray array = Object.getJSONArray("data");
 							volleyCallback.volleyFinishedSuccess(array,authority);

@@ -83,7 +83,7 @@ public final class Configs {
 	public static String QUERY_ONE_GOODS_DATA = "GetGoodsList.aspx?action=RQONE&cBarcode=%s";
 	
 	/**
-	 * 查询所有     用户信息    http://192.168.3.253:1234/AppServer/GetUserInf.aspx?action=RQAll
+	 * 查询所有     用户信息    http://192.168.3.199:1234/AppServer/GetUserInf.aspx?action=RQAll
 	 */
 	public static String QUERY_ALL_USERS_DATA = "GetUserInf.aspx?action=RQAll";
 	
@@ -91,7 +91,7 @@ public final class Configs {
 	 * 更新  所有商品库信息     从服务器获取数据
 	 * http://192.168.3.199:1234/AppServer/GetGoodsList.aspx?action=RQPOS
 	 */
-	public static String QUERY_ALL_GOODS_INFO = "GetGoodsList.aspx?action=RQPOS";
+	public static String QUERY_ALL_GOODS_INFO = "GetGoodsList.aspx?action=RQPOS&Bgn=%s&End=%s";
 	
 	/**
 	 * 更新商品信息库中   特价表中商品

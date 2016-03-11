@@ -81,13 +81,19 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
 		for(String  str : list){
 			PayWayMap payWayMap = new PayWayMap();
 			if(str.equals("人民币")){
-				payWayMap.setImageView(R.drawable.pay_rmb);
+				payWayMap.setImageView(R.drawable.pay_qianbaokoukuan);//pay_qianbaokoukuan
+				payWayMap.setTextView(str);
+			}else if(str.equals("微信")){
+				payWayMap.setImageView(R.drawable.weixin);
+				payWayMap.setTextView(str);
+			}else if(str.equals("支付宝")){
+				payWayMap.setImageView(R.drawable.pay_zhifubao);
 				payWayMap.setTextView(str);
 			}else if(str.equals("银联卡")){
 				payWayMap.setImageView(R.drawable.pay_bank_card);
 				payWayMap.setTextView(str);
 			}else if(str.equals("钱包扣款")){
-				payWayMap.setImageView(R.drawable.pay_qianbaokoukuan);
+				payWayMap.setImageView(R.drawable.pay_chuzhihuanbi);//pay_chuzhihuanbi
 				payWayMap.setTextView(str);
 			}else if(str.equals("礼金扣款")){
 				payWayMap.setImageView(R.drawable.pay_lijinkoukuan);
@@ -96,7 +102,7 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
 				payWayMap.setImageView(R.drawable.pay_liquan);
 				payWayMap.setTextView(str);
 			}else if(str.equals("储值换货")){
-				payWayMap.setImageView(R.drawable.pay_chuzhihuanbi);
+				payWayMap.setImageView(R.drawable.pay_rmb);
 				payWayMap.setTextView(str);
 			}else if(str.equals("现金卡")){
 				payWayMap.setImageView(R.drawable.pay_xianjincard);
@@ -109,12 +115,6 @@ public class PayDialogFragment extends DialogFragment implements OnItemClickList
 				payWayMap.setTextView(str);
 			}else if(str.equals("京东补价")){
 				payWayMap.setImageView(R.drawable.pay_jingdong_bujia);
-				payWayMap.setTextView(str);
-			}else if(str.equals("微信")){
-				payWayMap.setImageView(R.drawable.pay_wechat);
-				payWayMap.setTextView(str);
-			}else if(str.equals("支付宝")){
-				payWayMap.setImageView(R.drawable.pay_zhifubao);
 				payWayMap.setTextView(str);
 			}else{
 				payWayMap.setImageView(R.drawable.ic_launcher);

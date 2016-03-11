@@ -6,13 +6,10 @@
     android:paddingRight="5dp"
     android:orientation="horizontal" >
     
-    <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:text="@string/text_scan_codebar"
-       android:gravity="center"
-       android:textSize="@dimen/main_scan_text_size"
-       android:textColor="#000000"
+    <Button
+       android:id="@+id/query_goods_btn"
+       android:text="查询"
+       style="@style/MainScanBtnStyle"
        />
    
     <EditText
