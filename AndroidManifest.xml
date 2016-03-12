@@ -60,7 +60,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
-            android:name="com.example.hlcloundposproject.QueryGoodsActivity"
+            android:name="com.example.hlcloundposproject.activity.QueryGoodsActivity"
             android:label="@string/title_activity_query_goods" >
         </activity>
     </application>

@@ -158,6 +158,9 @@ public final class Configs {
 	 * 结算  完毕将数据发送至服务器：
 	 */
 	public static final String SELLED_DATA_TO_SERVER = "http://192.168.3.199:1234/AppPosServer.asmx/RetPosDetail";
-
 	
+	
+	public static final int QUERY_ACTIVITY_RESULT_CODE = 34;
+	
+	public static final int QUERY_ACTIVITY_REQUEST_CODE = 36;
 }

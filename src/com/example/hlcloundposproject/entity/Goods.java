@@ -1,12 +1,14 @@
 package com.example.hlcloundposproject.entity;
 
+import java.io.Serializable;
+
 /**
  * 正常商品的    实体类
  * com.hlrj.hlcloundpos.entity
  * @Email zhaoq_hero@163.com
  * @author zhaoQiang : 2016-1-25
  */
-public final class Goods {
+public final class Goods implements Serializable{
 	/**
 	 * "cGoodsNo,cUnitedNo,cGoodsName,cBarcode,cUnit,cSpec," +
 		"fNormalPrice,fVipPrice,fVipScore,bWeight,fVipScore_base," +

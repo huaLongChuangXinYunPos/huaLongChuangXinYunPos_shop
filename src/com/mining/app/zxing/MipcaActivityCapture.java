@@ -60,7 +60,6 @@ public class MipcaActivityCapture extends Activity implements Callback {
 			@Override
 			public void onClick(View v) {
 				MipcaActivityCapture.this.finish();
-				
 			}
 		});
 		hasSurface = false;

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,7 +61,7 @@ public class VipFragment extends DialogFragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		getDialog().setTitle("VIP结算");
+		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		View view = inflater.inflate(R.layout.vip_fragment, container,true);
 		
@@ -129,6 +130,7 @@ public class VipFragment extends DialogFragment implements OnClickListener {
 					int resultStatus = json.getInt("resultStatus");
 					if(resultStatus==1){
 						callback.fragmentCallback(response, Configs.VIP_FRAGMENT_QUHORITY);
+						Toast.makeText(getActivity(), "欢迎使用vip卡,已更新vip商品...", 1).show();
 					}else{
 						Toast.makeText(getActivity(), "当前vip号不存在,请检查是否过期...", 1).show();
 					}

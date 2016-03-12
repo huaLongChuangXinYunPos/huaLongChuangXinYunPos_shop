@@ -1,5 +1,7 @@
 package com.example.hlcloundposproject.db;
 
+import java.util.ArrayList;
+
 import com.example.hlcloundposproject.Content;
 import com.example.hlcloundposproject.entity.Goods;
 import com.example.hlcloundposproject.entity.JsType;
@@ -144,7 +146,6 @@ public final class OperationDbTableUtils {
 	 */
 	public static Cursor selectDataFromLocal(String codrBar,
 			MyOpenHelper goodsDataHelper) {
-		
 		SQLiteDatabase goodsDataDb = goodsDataHelper.getReadableDatabase();
 		Cursor cursor = goodsDataDb.query("t_"+Content.TABLE_FORMNALPRICE, new String[]{"*"}, 
 					" cBarcode = '"+codrBar+"'", null, null, null, null);
@@ -186,6 +187,52 @@ public final class OperationDbTableUtils {
 			goods.setPayMoney(cursor.getDouble(cursor.getColumnIndex("fNormalPrice")));
 		}
 		return goods;
+	}
+	
+	/**
+	 * 将  查询到的   基本商品信息   封装成实体类：
+	 * @param cursor
+	 * @return
+	 */
+	public static ArrayList<Goods> goodsCursorToList(Cursor cursor,String limit) {
+		ArrayList<Goods> list = new ArrayList<Goods>();
+		Goods goods = null;
+		int i = 0;
+		//遍历游标集合
+		while(cursor.moveToNext()&&i<50){
+		    goods = new Goods();
+			goods.setId(cursor.getInt(cursor.getColumnIndex("id")));
+			goods.setcGoodsNo(cursor.getString(cursor.getColumnIndex("cGoodsNo")));
+			goods.setcUnitedNo(cursor.getString(cursor.getColumnIndex("cUnitedNo")));
+			goods.setcGoodsName(cursor.getString(cursor.getColumnIndex("cGoodsName")));
+			goods.setcBarcode(cursor.getString(cursor.getColumnIndex("cBarcode")));
+			
+			goods.setcUnit(cursor.getString(cursor.getColumnIndex("cUnit")));
+			goods.setcSpec(cursor.getString(cursor.getColumnIndex("cSpec")));
+			goods.setfNormalPrice(cursor.getFloat(cursor.getColumnIndex("fNormalPrice")));
+			goods.setfVipPrice(cursor.getFloat(cursor.getColumnIndex("fVipPrice")));
+			goods.setfVipScore(cursor.getFloat(cursor.getColumnIndex("fVipScore")));
+			goods.setfVipScore_base(cursor.getFloat(cursor.getColumnIndex("fVipScore_base")));
+			
+			goods.setfVipPrice_student(cursor.getFloat(cursor.getColumnIndex("fVipPrice_student")));
+			goods.setbWeight(cursor.getInt(cursor.getColumnIndex("bWeight")));
+			goods.setbHidePrice(cursor.getInt(cursor.getColumnIndex("bHidePrice")));
+			goods.setbHideQty(cursor.getInt(cursor.getColumnIndex("bHideQty")));
+			goods.setbNoVipPrice(cursor.getInt(cursor.getColumnIndex("bNoVipPrice")));
+			
+			goods.setbUpdate(cursor.getInt(cursor.getColumnIndex("bUpdate")));
+			
+			goods.setAmount(1);//设置默认  数量和    金额为当前价格
+			goods.setPayMoney(cursor.getDouble(cursor.getColumnIndex("fNormalPrice")));
+			
+			list.add(goods);
+			
+			if(limit.equals("") || limit==null){
+				list.clear();
+			}
+			i++;//限制list中数据大小
+		}
+		return list;
 	}
 
 	/**

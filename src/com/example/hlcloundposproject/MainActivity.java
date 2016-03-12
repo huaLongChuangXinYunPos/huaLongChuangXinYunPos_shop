@@ -4,26 +4,20 @@ package com.example.hlcloundposproject;
 import hardware.print.printer;
 import hardware.print.printer.PrintType;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.hlcloundposproject.R;
 import com.example.hlcloundposproject.activity.LoginActivity;
+import com.example.hlcloundposproject.activity.QueryGoodsActivity;
 import com.example.hlcloundposproject.adapter.GoodsAdapter;
 import com.example.hlcloundposproject.db.MyOpenHelper;
 import com.example.hlcloundposproject.db.OperationDbTableUtils;
@@ -35,7 +29,6 @@ import com.example.hlcloundposproject.fragments.BackFragment;
 import com.example.hlcloundposproject.fragments.FragmentCallback;
 import com.example.hlcloundposproject.fragments.PayBalanceFragmentDialog;
 import com.example.hlcloundposproject.fragments.PayDialogFragment;
-import com.example.hlcloundposproject.fragments.QueryGoodsFragment;
 import com.example.hlcloundposproject.fragments.SelectFormTempFragment;
 import com.example.hlcloundposproject.fragments.UpdateAmountFragment;
 import com.example.hlcloundposproject.fragments.UpdateUserPwdDialog;
@@ -44,7 +37,6 @@ import com.example.hlcloundposproject.tasks.GetGoodsInfoAsyncTask;
 import com.example.hlcloundposproject.tasks.TaskCallBack;
 import com.example.hlcloundposproject.tasks.TaskResult;
 import com.example.hlcloundposproject.utils.FastJsonUtils;
-import com.example.hlcloundposproject.utils.HttpTools;
 import com.example.hlcloundposproject.utils.MD5Util;
 import com.example.hlcloundposproject.utils.MapUtils;
 import com.example.hlcloundposproject.utils.MyProgressDialog;
@@ -66,12 +58,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.print.PrintAttributes;
-import android.provider.SyncStateContract.Constants;
+import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -84,7 +73,6 @@ import android.hardware.barcode.Scanner;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Selection;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -236,15 +224,15 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			switch (msg.what) {
 
 			case Scanner.BARCODE_READ: { // 处理 扫描仪   发来的消息
-				etCodeBar.setText("");
-				// 显示读到的条码数据：
-				etCodeBar.setText((String) msg.obj);
-				// 光标移动到 编辑框下一行：
-				etCodeBar.setSelection(etCodeBar.getText().length());
-				// 播放声音
-				Scanner.play();
+					etCodeBar.setText("");
+					// 显示读到的条码数据：
+					etCodeBar.setText((String) msg.obj);
+					// 光标移动到 编辑框下一行：
+					etCodeBar.setSelection(etCodeBar.getText().length());
+					// 播放声音
+					Scanner.play();
+				}
 				break;
-			}
 
 			case Scanner.BARCODE_NOREAD: { // 处理  扫描仪  发来的消息
 				Toast.makeText(MainActivity.this, "未扫描到条码信息,请检查扫描仪设备", 0)
@@ -264,7 +252,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 					OperationDbTableUtils.sellGoodsInsertTable(goodsDataDb,
 							jsWay.equals("人民币")?((String)msg.obj).split("-"):null, 
 							goods,vipInput,cVipNo,(vipScore+fCurValue)+"",user,
-							sellSheetNo,jsWay,totalMoney.getText().toString().trim(),shPayMoney);
+							sellSheetNo,jsWay,getFormatNumber(totalMoney.getText().toString().trim()),shPayMoney);
 				}
 				System.out.println(sellSheetNo);
 				//像服务器  发送数据  并更新本地数据信息：
@@ -423,14 +411,21 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				vipScore += (item.getfVipScore()*item.getAmount());
 			}
 			
-			agoMoney.setText(getFormatFloat(agoSum+"").toString());
-			spPrice.setText(getFormatFloat(spSum + "").toString());
-			vipPrice.setText(getFormatFloat(vipSum + "").toString());
-			totalMoney.setText(getFormatFloat(totalSum + "").toString());
+			agoMoney.setText(getFormatNumber(getFormatFloat(agoSum+"").toString()));
+			spPrice.setText(getFormatNumber(getFormatFloat(spSum + "").toString()));
+			vipPrice.setText(getFormatNumber(getFormatFloat(vipSum + "").toString()));
+			totalMoney.setText(getFormatNumber(getFormatFloat(totalSum + "").toString()));
 			priceDiscount = getFormatFloat(spSum + "").floatValue()
 					+getFormatFloat(vipSum + "").floatValue();
+			
+			if(!isLine){
+				View view = new View(MainActivity.this);
+				view.setMinimumHeight(2);
+				view.setMinimumWidth(LayoutParams.MATCH_PARENT);
+				tableListView.addFooterView(view);
+				isLine = true;
+			}
 		}
-		
 		/**
 		 * 当 Adpater 调用 notifyDataSetInvalidate() 时候回调
 		 */
@@ -438,10 +433,13 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		public void onInvalidated() {
 		}
 	};
+	
+	private boolean isLine = false;
+	
 
 	public BigDecimal getFormatFloat(String floatNum){
 		BigDecimal bd = new BigDecimal(floatNum);
-		bd = bd.setScale(2,BigDecimal.ROUND_HALF_UP);  
+		bd = bd.setScale(4,BigDecimal.ROUND_HALF_UP);  
 		return bd;
 	}
 
@@ -498,13 +496,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		
 		case R.id.query_goods_btn:  //模糊查询   商品信息
 			
-//			QueryGoodsFragment queryFragment = QueryGoodsFragment
-//					.getInstance(QUERY_GOODS_FRAGMENT_AUTHORITY);
-//			queryFragment.show(getSupportFragmentManager(),
-//					"queryFrag");
-			
 			Intent in = new Intent(this,QueryGoodsActivity.class);
-			startActivity(in);
+			startActivityForResult(in, Configs.QUERY_ACTIVITY_REQUEST_CODE);
 			
 			break;
 		
@@ -772,7 +765,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 											MainActivity.this);
 									proDialog.setMessage("正在更新数据库...");
 									proDialog.show();
-									
 									proDialog.setCancelable(false);
 
 									// 创建线程 更新 数据库信息
@@ -852,8 +844,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			m_printer.PrintLineEnd();
 			
 			m_printer.PrintLineInit(22);
-			m_printer.PrintLineString("  "+goods.getcBarcode(),22, PrintType.Left, false);
-			m_printer.PrintLineString(goods.getfNormalPrice()+"   *"+goods.getAmount(), 22, PrintType.Centering, false);
+			m_printer.PrintLineString("  "+goods.getcBarcode()+"-",22, PrintType.Left, false);
+			m_printer.PrintLineString("       "+goods.getfNormalPrice()+" *"+goods.getAmount(), 22, PrintType.Centering, false);
 			m_printer.PrintLineString(goods.getPayMoney()+"  ", 22, PrintType.Right, false);
 			m_printer.PrintLineEnd();
 		}
@@ -879,7 +871,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 
 		m_printer.PrintLineInit(22);
 		m_printer.PrintLineString("金额分类：正价￥"+totalMoney.getText().toString().trim()
-				+ "    特价："+ spPrice.getText().toString().trim(),
+				+ "    特价："+ getFormatNumber(spPrice.getText().toString().trim()),
 				22,PrintType.Left,false);
 		m_printer.PrintLineEnd();
 		
@@ -902,7 +894,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		m_printer.PrintLineInit(22);
 		m_printer.PrintLineString("收银员:" + user.getUser(), 22,	printer.PrintType.Left,false);
 		m_printer.PrintLineString(TimeUtils.getSystemNowTime("yyyy-MM-dd   hh:mm:ss"), 
-				15,printer.PrintType.Right,false);
+				21,printer.PrintType.Right,false);
 		m_printer.PrintLineEnd();
 		
 		m_printer.PrintLineInit(22);
@@ -943,7 +935,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		list.clear();//清空数据
 		adapter.notifyDataSetChanged();
 	}
-
 	
 	/**
 	 * 使用 xutils 更新 商品基本库信息：
@@ -1004,7 +995,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				});
 	}
 	
-
 	private ProgressDialog proDialog;
 
 	private ArrayList<String> payWaylist; // 记录 结算方式的 list
@@ -1114,7 +1104,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 					+ String.format(Configs.QUERY_ONE_GOODS_DATA, codrBar));
 		}
 	}
-
 	
 	/**
 	 * 追加
@@ -1133,7 +1122,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
 	
 	/**
 	 * 获取当前 被点击的一项数据：
@@ -1144,7 +1132,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		listViewCurrCilckPosition = position;
 		clickItem = true;
 	}
-
 
 	/**
 	 * 所有 fragment的回调标识：
@@ -1266,7 +1253,19 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 			break;
 		}
 	}
-
+	
+	private String getFormatNumber(String text){
+		String str = text;
+		if(str!=null&&!str.equals("")&&str.contains(".")){
+			while(str.endsWith("0")){
+				str = str.substring(0,str.length()-1);
+			}
+		}
+		if(str.endsWith(".")){
+			str = str.substring(0,str.length()-1);
+		}
+		return str;
+	}
 	
 	private void updateSaleSheetNo() {
 		//获取当天已经    销售数量的信息 :  
@@ -1281,7 +1280,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		sellSheetNo = sp.getString(Configs.POS_ID, "01") + 
 				TimeUtils.getSystemNowTime("yyyyMMdd") + getFormatAmount(sellAm+"");
 	}
-
 	
 	/**
 	 * 获取  格式化后的   数量信息：
@@ -1300,7 +1298,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		return str.toString();
 	}
 
-	
 	@Override
 	public void volleyFinishedSuccess(final JSONArray array, int authority) {
 
@@ -1380,7 +1377,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		}
 	}
 	
-	
 	@Override
 	public void vollayFinishedFail(int authority) {
 		switch (authority) {
@@ -1390,7 +1386,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		}
 	}
 
-	
 	/**
 	 * 异步 任务回调 方法 接受 回调回来的数据：
 	 */
@@ -1444,13 +1439,12 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		}
 	}
 
-	
 	/**
 	 * 接受 二维码 扫描 传回来的数据：
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-			if( requestCode != RESULT_CANCELED){
+			if(requestCode != RESULT_CANCELED){
 				if(data!=null){
 					// 判断请求码：
 					switch (requestCode) {
@@ -1557,7 +1551,14 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 						toServer(testStr);//开始支付
 					}
 					break;
-						
+					case Configs.QUERY_ACTIVITY_REQUEST_CODE:{ //请求查询     商品信息数据的   activity返回数据：
+						if(resultCode ==Configs.QUERY_ACTIVITY_RESULT_CODE){
+							Goods goods = (Goods) data.getExtras().getSerializable("goods");
+							list.add(goods);
+							adapter.notifyDataSetChanged();
+						}
+					}
+					break;
 				default:
 					break;
 				}
@@ -1567,7 +1568,6 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		if (goodsDataDb != null && goodsDataDb.isOpen()) {
 			goodsDataDb.close();
 		}
@@ -1576,6 +1576,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		}
 		m_printer.Close();
 		adapter.unregisterDataSetObserver(adapterObserver);
+		super.onDestroy();
 	}
 
 	private static final int SCAN_PAY_THREAD_IS_OK = 2;
@@ -1586,10 +1587,8 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 	 */
 	private void toServer(final JSONObject testStr) {
 		new Thread(new Runnable() {
-			
 			@Override
 			public void run() {
-				
 				Looper.prepare();  //调用   循环对象   准备接受消息
 				
 				String resultStr = SocketToNet.socketTcpRequset(Content.SERVER_IP, Content.SERVER_PORT,

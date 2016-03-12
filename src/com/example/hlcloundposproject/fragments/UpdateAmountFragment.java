@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,7 +43,7 @@ public class UpdateAmountFragment extends DialogFragment implements OnClickListe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		getDialog().requestWindowFeature(STYLE_NO_TITLE);
+		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		View view = inflater.inflate(R.layout.update_amount_fragment, container,true);
 		

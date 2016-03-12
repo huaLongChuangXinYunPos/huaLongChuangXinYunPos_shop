@@ -91,15 +91,20 @@ public class PayBalanceFragmentDialog extends DialogFragment implements OnClickL
 			case R.id.pay_sure_btn:  
 				//确认按钮      确认  回调  activity
 				//清除数据
-				String backMoney = 
-						shouldPay.getText().toString().trim()+"-"+
-						inputPay.getText().toString().trim()+"-"+
-						overplusPay.getText().toString().trim()+"-"+
-						payStrs[1];
-				
-				callback.fragmentCallback(backMoney, Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY);
+				if(!inputPay.getText().toString().trim().equals("")&&inputPay.getText().toString().trim()!=null){
+					String backMoney = 
+							shouldPay.getText().toString().trim()+"-"+
+									inputPay.getText().toString().trim()+"-"+
+									overplusPay.getText().toString().trim()+"-"+
+									payStrs[1];
+					
+					callback.fragmentCallback(backMoney, Configs.GET_PAY_CALCULATE_RESULT_AUTHORITY);
+					
+					onDestroyView();
+				}else{
+					inputPay.setError("输入结算金额");
+				}
 
-				onDestroyView();
 				break;
 				
 			case R.id.pay_exit_btn:

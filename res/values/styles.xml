@@ -23,12 +23,12 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:gravity">left|bottom</item>
-        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingLeft">2dp</item>
     </style>
     
-    <!-- 主页面中    现价合计  字体    样式-->
+    <!-- 主页面中    现价   合计  字体    样式-->
     <style name="MainTotalPriceTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

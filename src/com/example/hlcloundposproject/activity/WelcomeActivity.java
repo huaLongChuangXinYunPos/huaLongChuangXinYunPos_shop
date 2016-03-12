@@ -62,7 +62,6 @@ public class WelcomeActivity extends Activity implements Runnable {
 	
 	@Override
 	public void run() {
-		
 		/**
 		 * œﬂ≥Ã≥¡ÀØ  ¡Ω√Î÷”
 		 */

@@ -75,13 +75,13 @@ public final class GoodsAdapter extends BaseAdapter {
 		viewHolder.goodCodeBar.setText(goods.getcBarcode());
 		viewHolder.goodCodeBar.setTextSize(15);
 		
-		viewHolder.goodNum.setText("" + goods.getAmount());  //设置数量：
+		viewHolder.goodNum.setText(getFormatNumber("" + goods.getAmount()));  //设置数量：
 		viewHolder.goodNum.setTextSize(15);
 		
 		viewHolder.goodCurrPrice.setText(goods.getfNormalPrice()+"");
 		viewHolder.goodCurrPrice.setTextSize(15);
 		
-		viewHolder.goodMoney.setText(goods.getPayMoney()+"");//总金额：
+		viewHolder.goodMoney.setText(getFormatNumber(goods.getPayMoney()+""));//总金额：
 		viewHolder.goodMoney.setTextSize(13);
 
 		return convertView;
@@ -96,4 +96,16 @@ public final class GoodsAdapter extends BaseAdapter {
 		public TextView goodMoney;
 	}
 	
+	private String getFormatNumber(String text){
+		String str = text;
+		if(str!=null&&!str.equals("")&&str.contains(".")){
+			while(str.endsWith("0")){
+				str = str.substring(0,str.length()-1);
+			}
+		}
+		if(str.endsWith(".")){
+			str = str.substring(0,str.length()-1);
+		}
+		return str;
+	}
 }

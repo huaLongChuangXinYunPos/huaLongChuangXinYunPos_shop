@@ -8,7 +8,7 @@
     
     <dimen name="login_btn_size">13sp</dimen>
     
-    <dimen name="main_scan_text_size">16sp</dimen>
+    <dimen name="main_scan_text_size">15sp</dimen>
     
     <!-- main.scan -->
     <dimen name="main_scan_edittext_height">33dp</dimen>

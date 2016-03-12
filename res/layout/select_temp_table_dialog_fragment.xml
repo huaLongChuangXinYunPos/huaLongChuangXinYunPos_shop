@@ -8,9 +8,7 @@
         android:id="@+id/select_table_list"
 		android:layout_width="match_parent"        
 		android:layout_height="wrap_content"
-		android:paddingTop="2dp"
-		android:paddingBottom="2dp"
-		android:paddingLeft="15dp"
+		android:padding="2dp"
         />
     
 </LinearLayout>
