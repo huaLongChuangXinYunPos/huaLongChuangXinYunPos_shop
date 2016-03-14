@@ -291,7 +291,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 				Content.TEMP_DATA_DB);
 
 		ViewUtils.inject(this);
-
+		
 		etCodeBar.requestFocus(); // 去掉软键盘
 
 		// 设置   表格标题的   背景颜色
@@ -434,8 +434,7 @@ public class MainActivity extends FragmentActivity implements TaskCallBack,
 		}
 	};
 	
-	private boolean isLine = false;
-	
+	private boolean isLine = false;	
 
 	public BigDecimal getFormatFloat(String floatNum){
 		BigDecimal bd = new BigDecimal(floatNum);
