@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.hlcloundposproject"
+    package="com.shop.hlcloundposproject"
     android:versionCode="1"
     android:versionName="hl_posClound_1.0" >
 
@@ -30,7 +30,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.hlcloundposproject.activity.SplashActivity"
+            android:name="com.shop.hlcloundposproject.activity.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,14 +39,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.hlcloundposproject.MainActivity"
+            android:name="com.shop.hlcloundposproject.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/main_label"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name="com.example.hlcloundposproject.activity.LoginActivity"
+            android:name="comcom.shop.hlcloundposproject.activity.LoginActivity" 
             android:label="@string/login_lable"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustResize" />
@@ -60,7 +60,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
-            android:name="com.example.hlcloundposproject.activity.QueryGoodsActivity"
+            android:name="comcom.shop.hlcloundposproject.activity.QueryGoodsActivity"
             android:label="@string/title_activity_query_goods" >
         </activity>
     </application>
