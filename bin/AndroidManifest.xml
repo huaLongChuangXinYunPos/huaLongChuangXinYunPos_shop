@@ -38,29 +38,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="com.shop.hlcloundposproject.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/main_label"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        
         <activity
-            android:name="comcom.shop.hlcloundposproject.activity.LoginActivity" 
+            android:name="com.shop.hlcloundposproject.activity.LoginActivity" 
             android:label="@string/login_lable"
             android:launchMode="singleInstance"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
 
-        <!-- 二維碼 -->
+        <!-- 二維碼  -->
         <activity
             android:name="com.mining.app.zxing.MipcaActivityCapture"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_scan_code_bar"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:theme="@style/AppTheme" 
+            android:windowSoftInputMode="stateAlwaysHidden"
+            >
         </activity>
         <activity
-            android:name="comcom.shop.hlcloundposproject.activity.QueryGoodsActivity"
+            android:name="com.shop.hlcloundposproject.activity.QueryGoodsActivity"
             android:label="@string/title_activity_query_goods" >
         </activity>
     </application>

@@ -13,12 +13,16 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.shop.hlcloundposproject.R;
@@ -26,13 +30,14 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mining.app.zxing.camera.CameraManager;
 import com.mining.app.zxing.decoding.CaptureActivityHandler;
+import com.mining.app.zxing.decoding.FinishListener;
 import com.mining.app.zxing.decoding.InactivityTimer;
 import com.mining.app.zxing.view.ViewfinderView;
 /**
  * Initial the camera
  * @author Ryan.Tang
  */
-public class MipcaActivityCapture extends Activity implements Callback {
+public class MipcaActivityCapture extends Activity implements Callback, TextWatcher {
 
 	private CaptureActivityHandler handler;
 	private ViewfinderView viewfinderView;
@@ -44,6 +49,10 @@ public class MipcaActivityCapture extends Activity implements Callback {
 	private boolean playBeep;
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
+	
+	
+	//监听扫描到的  数据信息
+	private EditText scan_payCode;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -55,6 +64,9 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		
 		Button mButtonBack = (Button) findViewById(R.id.button_back);
+		
+		scan_payCode = (EditText) findViewById(R.id.scan_payCode);
+		
 		mButtonBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -64,6 +76,8 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		});
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
+		
+		scan_payCode.addTextChangedListener(this);
 	}
 
 	@Override
@@ -87,7 +101,6 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		}
 		initBeepSound();
 		vibrate = true;
-		
 	}
 
 	@Override
@@ -111,7 +124,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 	 * @param result
 	 * @param barcode
 	 */
-	public void handleDecode(Result result, Bitmap barcode) {
+	public void handleDecode(Result result) {
 		inactivityTimer.onActivity();
 		playBeepSoundAndVibrate();
 		String resultString = result.getText();
@@ -121,7 +134,6 @@ public class MipcaActivityCapture extends Activity implements Callback {
 			Intent resultIntent = new Intent();
 			Bundle bundle = new Bundle();
 			bundle.putString("result", resultString);
-			bundle.putParcelable("bitmap", barcode);
 			resultIntent.putExtras(bundle);
 			this.setResult(RESULT_OK, resultIntent);
 		}
@@ -220,5 +232,28 @@ public class MipcaActivityCapture extends Activity implements Callback {
 			mediaPlayer.seekTo(0);
 		}
 	};
+	
+	@Override
+	public void afterTextChanged(Editable s) {
+		//扫描到  的数据
+		if(s.toString()!=null && !s.toString().equals("")){
+			Intent resultIntent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putString("result", s.toString());
+			resultIntent.putExtras(bundle);
+			this.setResult(RESULT_OK, resultIntent);
+			
+			MipcaActivityCapture.this.finish();
+		}
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+	}
 
 }

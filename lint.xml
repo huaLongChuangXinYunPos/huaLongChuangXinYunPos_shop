@@ -11,9 +11,11 @@
     <issue id="ShowToast">
         <ignore path="src/com/example/hlcloundposproject/MainActivity.java" />
         <ignore path="src/com/example/hlcloundposproject/fragments/UpdateUserPwdDialog.java" />
+        <ignore path="src/com/shop/hlcloundposproject/MainActivity.java" />
     </issue>
     <issue id="SimpleDateFormat">
         <ignore path="src/com/example/hlcloundposproject/MainActivity.java" />
         <ignore path="src/com/example/hlcloundposproject/db/OperationDbTableUtils.java" />
+        <ignore path="src/com/shop/hlcloundposproject/MainActivity.java" />
     </issue>
 </lint>
