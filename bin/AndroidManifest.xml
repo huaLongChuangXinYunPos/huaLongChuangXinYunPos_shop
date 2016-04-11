@@ -7,7 +7,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17"
+        android:targetSdkVersion="22"
         tools:ignore="OldTargetApi" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -51,7 +51,7 @@
             android:name="com.shop.hlcloundposproject.activity.LoginActivity" 
             android:label="@string/login_lable"
             android:launchMode="singleInstance"
-            android:windowSoftInputMode="adjustResize"/>
+            />
 
         <!-- 二維碼  -->
         <activity
@@ -63,6 +63,7 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             >
         </activity>
+        
         <activity
             android:name="com.shop.hlcloundposproject.activity.QueryGoodsActivity"
             android:label="@string/title_activity_query_goods" >
