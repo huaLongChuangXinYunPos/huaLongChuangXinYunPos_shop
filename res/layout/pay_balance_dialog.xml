@@ -32,7 +32,6 @@
             android:layout_width="match_parent"  
             android:layout_height="3dip"  
             android:background="@color/highBlue"/>  
-    
     <LinearLayout 
         android:layout_marginTop="10dp"
 	    android:layout_width="match_parent"
@@ -43,7 +42,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:padding="5dp"
-	         android:textSize="18sp"
+	        android:textSize="18sp"
 	        android:text="应付："
 	        />
 	    <TextView 
@@ -62,7 +61,6 @@
 	        android:text="元"
 	        />
 	</LinearLayout>
-	
     
     <LinearLayout 
         android:layout_marginTop="10dp"
@@ -85,7 +83,9 @@
 		        android:padding="5dp"
 		        android:textSize="18sp"
 		        android:background="@null"
+		        android:singleLine="true"
 		        android:inputType="numberDecimal"
+		        android:layout_marginRight="5dp"
 		        android:hint="输入支付金额"
 	        />
 		   <ImageView 
@@ -94,7 +94,6 @@
 				android:layout_gravity="center_vertical"       
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
-				android:layout_marginLeft="5dp"
 				android:background="@drawable/ic_dialog_keyboard"
 		       />
 	</LinearLayout>

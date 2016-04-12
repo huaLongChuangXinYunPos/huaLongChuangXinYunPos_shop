@@ -49,6 +49,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_margin="10dp"
 		        android:background="@null"
+		        android:singleLine="true"
 		        android:layout_marginLeft="5dp"
 		        android:hint="@string/vip_fragment_input_vipnum"
 	      	  />
