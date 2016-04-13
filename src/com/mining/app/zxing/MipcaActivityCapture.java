@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
+import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.shop.hlcloundposproject.R;
+import com.shop.hlcloundposproject.utils.ExitApplicationUtils;
+import com.shop.hlcloundposproject.utils.MyToast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mining.app.zxing.camera.CameraManager;
@@ -255,5 +258,23 @@ public class MipcaActivityCapture extends Activity implements Callback, TextWatc
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 	}
-
+	
+	/* 再按一次退出程序   禁用返回键 */
+	private long exitTime = 0;
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			if ((System.currentTimeMillis() - exitTime) > 2000) {
+				MyToast.ToastIncenter(this, "再按一次退出").show();
+				exitTime = System.currentTimeMillis();
+			} else {
+				finish();
+				ExitApplicationUtils.getInstance().exit();
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 }
