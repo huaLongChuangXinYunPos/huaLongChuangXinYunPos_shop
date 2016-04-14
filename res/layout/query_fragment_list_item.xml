@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    android:orientation="vertical" >
+    
+      <TextView
+          android:id="@+id/query_fragment_item_goodsName"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:singleLine="true"
+           android:text="品名 : 中华牙膏"
+           android:textColor="@drawable/keys_num_textcolor_selector"
+           android:textSize="15sp"
+            />
+      <TextView 
+          android:id="@+id/query_fragment_item_goodsPrice"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:singleLine="true"
+          android:textColor="@drawable/keys_num_textcolor_selector"
+          android:textSize="15sp"
+          android:text="条码  : 23826762324 单价 : 10.8元/个"
+          />
+
+</LinearLayout>
